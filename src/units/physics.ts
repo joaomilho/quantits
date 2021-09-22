@@ -14,7 +14,12 @@ import {
   amountOfSubstance,
   LuminousIntensity,
   luminousIntensity,
+  Area,
+  area,
 } from "../dimensions/physics";
+import { composedUnit, ComposedUnit } from "./composedUnit";
+
+// Basic physics units
 
 export type Second = Unit<"Second", Time>;
 export const second: Second = unit("Second", time);
@@ -59,3 +64,8 @@ export type PhysicsUnit =
   | Kelvin
   | Mole
   | Candela;
+
+// Composed physics units
+
+export type SquareMeter = ComposedUnit<"SquareMeter", Area>;
+const squareMeter: SquareMeter = composedUnit("SquareMeter", area);

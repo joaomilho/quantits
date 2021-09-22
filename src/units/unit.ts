@@ -1,12 +1,12 @@
-import { AnyDimension } from "../dimensions/dimension";
+import { AnySimpleDimension } from "../dimensions/dimension";
 
-export type Unit<Name extends string, D extends AnyDimension> = {
+export type Unit<Name extends string, D extends AnySimpleDimension> = {
   name: Name;
   type: "Unit";
   dimension: D;
 };
 
-export function unit<Name extends string, D extends AnyDimension>(
+export function unit<Name extends string, D extends AnySimpleDimension>(
   name: Name,
   dimension: D
 ): Unit<Name, D> {

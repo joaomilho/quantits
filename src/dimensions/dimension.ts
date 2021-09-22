@@ -7,4 +7,4 @@ export function dimension<Name extends string>(name: Name): Dimension<Name> {
   return { type: "Dimension", name };
 }
 
-export type AnyDimension = Dimension<string>;
+export type AnySimpleDimension = Dimension<string>;

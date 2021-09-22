@@ -1,8 +1,8 @@
 import { Operation } from "../operation";
-import { Dimension } from "./dimension";
+import { AnySimpleDimension, Dimension } from "./dimension";
 
 export type ComposedDimension<Name extends string, C extends AnyComposition> = {
-  type: "Dimension";
+  type: "ComposedDimension";
   name: Name;
   composition: C;
 };
@@ -11,12 +11,11 @@ export function composedDimension<
   Name extends string,
   C extends AnyComposition
 >(name: Name, composition: C): ComposedDimension<Name, C> {
-  return { type: "Dimension", name, composition };
+  return { type: "ComposedDimension", name, composition };
 }
 
-export type AnyDimension =
-  | Dimension<string>
-  | ComposedDimension<string, AnyComposition>;
+export type AnyComposedDimansion = ComposedDimension<string, AnyComposition>;
+export type AnyDimension = AnySimpleDimension | AnyComposedDimansion;
 
 export type Composition<
   D1 extends AnyDimension,
