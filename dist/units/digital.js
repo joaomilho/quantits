@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.trits = exports.trit = exports.b = exports.bits = exports.bit = void 0;
+var unit_1 = require("./unit");
+var digital_1 = require("../dimensions/digital");
+exports.bit = (0, unit_1.unit)("Bit", digital_1.information);
+exports.bits = exports.bit;
+exports.b = exports.bit;
+exports.trit = (0, unit_1.unit)("Trit", digital_1.information);
+exports.trits = exports.trit;
