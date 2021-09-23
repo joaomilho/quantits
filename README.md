@@ -128,3 +128,47 @@ convert(meter, second) // ConversionError (typesafe-ish)
 ## Measurements
 
 TODO
+
+## Custom dimensions, quantities, units and measurements
+
+With quantits, you're not limited to SI physical things. The library already exposes some other dimensions such as `Information` and its units, `bit` and `trit` along with conversions, like `megabyte` and `petatryte`, and composed quantities such as `Bandwidth` defined as Information per Time. Here's how to roll your own:
+
+```ts
+type Pain = Dimension<"Pain">;
+const pain: Pain = dimension("Pain");
+
+type Dol = Unit<"Dol", Pain>;
+const dol: Dol = unit("Dol", pain);
+
+type Pungency = Dimension<"Pungency">;
+const pungency: Pungency = dimension("Pungency");
+
+type Scoville = Unit<"Scoville", Pungency>;
+const scoville: Scoville = unit("Scoville", pungency);
+
+type Fame = Dimension<"Fame">;
+const fame: Fame = dimension("Fame");
+
+type Warhol = Unit<"Warhol", Fame>;
+const warhol: Warhol = unit("Warhol", fame);
+
+type Kilowarhol = Kilo<Warhol>;
+const kilowarhol: Kilowarhol = kilo(warhol);
+
+type Hype = Quantity<"Hype", Divide<Fame, Time>>;
+const hype: Hype = quantity("Hype", divide(fame, time));
+
+type Quarter = ConversionUnit<"Quarter", Equal<15, Minute>>;
+const quarter = conversionUnit("Quarter", equal(15, minute));
+
+export type WarholPer15Minutes = ComposedUnit<
+  "WarholPer15Minutes",
+  Hype,
+  [Warhol, Quarter]
+>;
+export const warholPer15Minutes: WarholPer15Minutes = composedUnit(
+  "WarholPer15Minutes",
+  hype,
+  [warhol, quarter]
+);
+```
