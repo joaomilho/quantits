@@ -1,5 +1,7 @@
 # Quantits [alpha, not released yet]
 
+<img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/SI_Illustration_Base_Units_and_Constants_Colour_Full.svg" width=200 />
+
 Quantits is a typescript-first library about quantities.
 
 Quantits is inspired by Idris' [quantities](https://github.com/timjb/quantities) libray.
