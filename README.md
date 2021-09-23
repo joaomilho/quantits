@@ -72,7 +72,7 @@ type Kilometer = ConversionUnit<"Kilometer", Equal<1000, Meter>>;
 const kilometer: Kilometer = conversionUnit("Kilometer", equal(1000, meter));
 
 type Minute = ConversionUnit<"Minute", Equal<60, Second>>;
-const minute: Minute = conversionUnit("Meter", equal(60, second));
+const minute: Minute = conversionUnit("Minute", equal(60, second));
 ```
 
 To make conversions simpler, the library defines some conversion helpers, like `Kilo`/`kilo`, `Centi`/`centi`, etc, from the small `Femto`/`femto` to the big `Yotta`/`yotta`. It also provides `Sixty`/`sixty` and some other handy ones. Let's rewrite the code above now:
