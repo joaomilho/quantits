@@ -16,3 +16,5 @@ export function unit<Name extends string, D extends AnySimpleDimension>(
     dimension,
   };
 }
+
+export type AnySimpleUnit = Unit<string, AnySimpleDimension>;

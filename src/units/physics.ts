@@ -16,8 +16,28 @@ import {
   luminousIntensity,
   Area,
   area,
+  Speed,
+  speed,
+  Volume,
+  volume,
+  Hypervolume,
+  hypervolume,
+  frequency,
+  Frequency,
 } from "../dimensions/physics";
 import { composedUnit, ComposedUnit } from "./composedUnit";
+import {
+  Centi,
+  centi,
+  conversionUnit,
+  ConversionUnit,
+  equal,
+  Equal,
+  kilo,
+  Kilo,
+  sixty,
+  Sixty,
+} from "./conversionUnit";
 
 // Basic physics units
 
@@ -67,5 +87,70 @@ export type PhysicsUnit =
 
 // Composed physics units
 
-export type SquareMeter = ComposedUnit<"SquareMeter", Area>;
-const squareMeter: SquareMeter = composedUnit("SquareMeter", area);
+export type MeterPerSecond = ComposedUnit<
+  "MeterPerSecond",
+  Speed,
+  [Meter, Second]
+>;
+export const meterPerSecond: MeterPerSecond = composedUnit(
+  "MeterPerSecond",
+  speed,
+  [meter, second]
+);
+
+// TODO
+// export type KilometerPerHour = ComposedUnit<
+//   "KilometerPerHour",
+//   Speed,
+//   [Kilometer, Hour]
+// >;
+// export const kilometerPerHour: KilometerPerHour = composedUnit(
+//   "KilometerPerHour",
+//   speed,
+//   [meter, second]
+// );
+
+export type SquareMeter = ComposedUnit<"SquareMeter", Area, [Meter]>;
+export const squareMeter: SquareMeter = composedUnit("SquareMeter", area, [
+  meter,
+]);
+
+export type CubicMeter = ComposedUnit<"CubicMeter", Volume, [Meter]>;
+export const cubicMeter: CubicMeter = composedUnit("CubicMeter", volume, [
+  meter,
+]);
+
+export type HypercubicMeter = ComposedUnit<
+  "HypercubicMeter",
+  Hypervolume,
+  [Meter]
+>;
+export const hypercubicMeter: HypercubicMeter = composedUnit(
+  "HypercubicMeter",
+  hypervolume,
+  [meter]
+);
+
+export type Hertz = ComposedUnit<"Hertz", Frequency, [Second]>;
+export const hertz: Hertz = composedUnit("Hertz", frequency, [second]);
+
+//
+
+// export type Kilometer = Kilo<Meter>;
+// export const kilometer: Kilometer = kilo(meter);
+// export const kilometers = kilometer;
+
+export type Centimeter = Centi<Meter>;
+export const centimeter: Centimeter = centi(meter);
+export const centimeters = centimeter;
+
+export type Kilometer = Kilo<Meter>;
+export const kilometer: Kilometer = kilo(meter);
+export const kilometers = kilometer;
+
+export type Liter = ConversionUnit<"Liter", Equal<0.01, SquareMeter>>;
+export const liter: Liter = conversionUnit("Liter", equal(0.01, squareMeter));
+
+export type Minute = Sixty<Second, "Minute">;
+export const minute: Minute = sixty(second, "Minute");
+export const minutes = minute;

@@ -1,24 +1,36 @@
 import { AnyComposedDimansion } from "../dimensions/composedDimension";
-import { AnySimpleDimension } from "../dimensions/dimension";
-import { Operation } from "../operation";
-import { Unit } from "./unit";
+import { AnySimpleDimension, Dimension } from "../dimensions/dimension";
+import { AnySimpleUnit, Unit } from "./unit";
 
 export type ComposedUnit<
   Name extends string,
-  CD extends AnyComposedDimansion
+  CD extends AnyComposedDimansion,
+  DCU extends DeriveComposedUnits<CD>
 > = {
-  type: "ComposedDimension";
+  type: "ComposedUnit";
   name: Name;
   dimension: CD;
+  composedUnits: DCU;
 };
+
+type UnitOf<SD extends AnySimpleDimension> = Unit<any, SD>;
+
+type DeriveComposedUnits<CD extends AnyComposedDimansion> =
+  CD["composition"]["d1"] extends AnySimpleDimension
+    ? CD["composition"]["d2"] extends AnySimpleDimension
+      ? [UnitOf<CD["composition"]["d1"]>, UnitOf<CD["composition"]["d2"]>]
+      : [UnitOf<CD["composition"]["d1"]>]
+    : 1;
 
 export function composedUnit<
   Name extends string,
   CD extends AnyComposedDimansion
->(name: Name, dimension: CD): ComposedUnit<Name, CD> {
-  return { type: "ComposedDimension", name, dimension };
+>(
+  name: Name,
+  dimension: CD,
+  composedUnits: DeriveComposedUnits<CD>
+): ComposedUnit<Name, CD, DeriveComposedUnits<CD>> {
+  return { type: "ComposedUnit", name, dimension, composedUnits };
 }
 
-export type AnyUnit =
-  | Unit<string, AnySimpleDimension>
-  | ComposedUnit<string, AnyComposedDimansion>;
+export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimansion, any>;
