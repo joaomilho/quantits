@@ -7,12 +7,19 @@ export type ComposedDimension<Name extends string, C extends AnyComposition> = {
   composition: C;
 };
 
+export type Quantity<
+  Name extends string,
+  C extends AnyComposition
+> = ComposedDimension<Name, C>;
+
 export function composedDimension<
   Name extends string,
   C extends AnyComposition
 >(name: Name, composition: C): ComposedDimension<Name, C> {
   return { type: "ComposedDimension", name, composition };
 }
+
+export const quantity = composedDimension;
 
 export type AnyComposedDimansion = ComposedDimension<string, AnyComposition>;
 export type AnyDimension = AnySimpleDimension | AnyComposedDimansion;
