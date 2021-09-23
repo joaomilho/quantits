@@ -98,18 +98,6 @@ export const meterPerSecond: MeterPerSecond = composedUnit(
   [meter, second]
 );
 
-// TODO
-// export type KilometerPerHour = ComposedUnit<
-//   "KilometerPerHour",
-//   Speed,
-//   [Kilometer, Hour]
-// >;
-// export const kilometerPerHour: KilometerPerHour = composedUnit(
-//   "KilometerPerHour",
-//   speed,
-//   [meter, second]
-// );
-
 export type SquareMeter = ComposedUnit<"SquareMeter", Area, [Meter]>;
 export const squareMeter: SquareMeter = composedUnit("SquareMeter", area, [
   meter,
@@ -154,3 +142,30 @@ export const liter: Liter = conversionUnit("Liter", equal(0.01, squareMeter));
 export type Minute = Sixty<Second, "Minute">;
 export const minute: Minute = sixty(second, "Minute");
 export const minutes = minute;
+
+export type Hour = ConversionUnit<"Hour", Equal<3600, Second>>;
+export const hour: Hour = conversionUnit("Hour", equal(3600, second));
+export const hours = hour;
+
+export type KilometerPerHour = ComposedUnit<
+  "KilometerPerHour",
+  Speed,
+  [Kilometer, Hour]
+>;
+export const kilometerPerHour: KilometerPerHour = composedUnit(
+  "KilometerPerHour",
+  speed,
+  [kilometer, hour]
+);
+
+export type KilometerPerSecond = ComposedUnit<
+  "KilometerPerSecond",
+  Speed,
+  [Kilometer, Second]
+>;
+
+export const kilometerPerSecond: KilometerPerSecond = composedUnit(
+  "KilometerPerSecond",
+  speed,
+  [kilometer, second]
+);

@@ -1,35 +1,30 @@
 import { AnyComposedDimansion } from "../dimensions/composedDimension";
 import { AnySimpleDimension, Dimension } from "../dimensions/dimension";
+import { Area, Speed } from "../dimensions/physics";
+import { AnyUnit } from "./anyUnit";
+import {
+  AnyConversionUnit,
+  Conversion,
+  ConversionUnit,
+} from "./conversionUnit";
 import { AnySimpleUnit, Unit } from "./unit";
 
 export type ComposedUnit<
   Name extends string,
   CD extends AnyComposedDimansion,
-  DCU extends DeriveComposedUnits<CD>
+  US extends AnyUnit[]
 > = {
   type: "ComposedUnit";
   name: Name;
   dimension: CD;
-  composedUnits: DCU;
+  composedUnits: US;
 };
-
-type UnitOf<SD extends AnySimpleDimension> = Unit<any, SD>;
-
-type DeriveComposedUnits<CD extends AnyComposedDimansion> =
-  CD["composition"]["d1"] extends AnySimpleDimension
-    ? CD["composition"]["d2"] extends AnySimpleDimension
-      ? [UnitOf<CD["composition"]["d1"]>, UnitOf<CD["composition"]["d2"]>]
-      : [UnitOf<CD["composition"]["d1"]>]
-    : 1;
 
 export function composedUnit<
   Name extends string,
-  CD extends AnyComposedDimansion
->(
-  name: Name,
-  dimension: CD,
-  composedUnits: DeriveComposedUnits<CD>
-): ComposedUnit<Name, CD, DeriveComposedUnits<CD>> {
+  CD extends AnyComposedDimansion,
+  US extends AnyUnit[]
+>(name: Name, dimension: CD, composedUnits: US): ComposedUnit<Name, CD, US> {
   return { type: "ComposedUnit", name, dimension, composedUnits };
 }
 

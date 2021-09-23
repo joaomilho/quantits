@@ -27,6 +27,7 @@ export type ConversionUnit<Name extends string, C extends AnyConversion> = {
   type: "ConversionUnit";
   name: Name;
   conversion: C;
+  dimension: null;
 };
 
 export type AnyConversionUnit = ConversionUnit<string, AnyConversion>;
@@ -35,7 +36,7 @@ export function conversionUnit<Name extends string, C extends AnyConversion>(
   name: Name,
   conversion: C
 ): ConversionUnit<Name, C> {
-  return { type: "ConversionUnit", name, conversion };
+  return { type: "ConversionUnit", name, conversion, dimension: null };
 }
 
 export type Multiply<U extends AnyUnit, N extends number> = Conversion<
