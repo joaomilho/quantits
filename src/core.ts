@@ -14,28 +14,21 @@ export function dimension<Name extends string>(name: Name): Dimension<Name> {
 export type AnySimpleDimension = Dimension<string>;
 
 // Composed dimensions (aka quantities)
-export type ComposedDimension<Name extends string, C extends AnyComposition> = {
-  type: "ComposedDimension";
+export type Quantity<Name extends string, C extends AnyComposition> = {
+  type: "Quantity";
   name: Name;
   composition: C;
 };
 
-export type Quantity<
-  Name extends string,
-  C extends AnyComposition
-> = ComposedDimension<Name, C>;
-
-export function composedDimension<
-  Name extends string,
-  C extends AnyComposition
->(name: Name, composition: C): ComposedDimension<Name, C> {
-  return { type: "ComposedDimension", name, composition };
+export function quantity<Name extends string, C extends AnyComposition>(
+  name: Name,
+  composition: C
+): Quantity<Name, C> {
+  return { type: "Quantity", name, composition };
 }
 
-export const quantity = composedDimension;
-
-export type AnyComposedDimension = ComposedDimension<string, AnyComposition>;
-export type AnyDimension = AnySimpleDimension | AnyComposedDimension;
+export type AnyQuantity = Quantity<string, AnyComposition>;
+export type AnyDimension = AnySimpleDimension | AnyQuantity;
 
 export type Composition<
   D1 extends AnyDimension,
@@ -74,7 +67,7 @@ export type AnySimpleUnit = Unit<string, AnySimpleDimension>;
 
 export type ComposedUnit<
   Name extends string,
-  CD extends AnyComposedDimension,
+  CD extends AnyQuantity,
   US extends AnyUnit[]
 > = {
   type: "ComposedUnit";
@@ -85,13 +78,13 @@ export type ComposedUnit<
 
 export function composedUnit<
   Name extends string,
-  CD extends AnyComposedDimension,
+  CD extends AnyQuantity,
   US extends AnyUnit[]
 >(name: Name, dimension: CD, composedUnits: US): ComposedUnit<Name, CD, US> {
   return { type: "ComposedUnit", name, dimension, composedUnits };
 }
 
-export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimension, any>;
+export type AnyComposedUnit = ComposedUnit<string, AnyQuantity, any>;
 
 // Conversion units
 
