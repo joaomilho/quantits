@@ -407,7 +407,7 @@ export const permittivity: Permittivity = quantity(
   divide(capacitance, length)
 );
 
-export type Permettivity = Quantity<"Permeability", Divide<Inductance, Length>>;
+export type Permeability = Quantity<"Permeability", Divide<Inductance, Length>>;
 export const permeability: Permeability = quantity(
   "Permeability",
   divide(inductance, length)

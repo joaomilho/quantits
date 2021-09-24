@@ -77,6 +77,58 @@ export function basicConv<
   );
 }
 
+// * 1024s
+
+export type Kibi<U extends AnyUnit> = BasicConv<U, "Kibi", 1024>;
+export function kibi<U extends AnyUnit>(u: U): Kibi<U> {
+  return basicConv(u, "Kibi", 1024);
+}
+
+export type Mebi<U extends AnyUnit> = BasicConv<U, "Mebi", 1048576>;
+export function mebi<U extends AnyUnit>(u: U): Mebi<U> {
+  return basicConv(u, "Mebi", 1048576);
+}
+
+export type Gibi<U extends AnyUnit> = BasicConv<U, "Gibi", 1073741824>;
+export function gibi<U extends AnyUnit>(u: U): Gibi<U> {
+  return basicConv(u, "Gibi", 1073741824);
+}
+
+export type Tebi<U extends AnyUnit> = BasicConv<U, "Tebi", 1099511627776>;
+export function tebi<U extends AnyUnit>(u: U): Tebi<U> {
+  return basicConv(u, "Tebi", 1099511627776);
+}
+
+export type Pebi<U extends AnyUnit> = BasicConv<U, "Pebi", 1125899906842624>;
+export function pebi<U extends AnyUnit>(u: U): Pebi<U> {
+  return basicConv(u, "Pebi", 1125899906842624);
+}
+
+export type Exbi<U extends AnyUnit> = BasicConv<U, "Exbi", 1152921504606847000>;
+export function exbi<U extends AnyUnit>(u: U): Exbi<U> {
+  return basicConv(u, "Exbi", 1152921504606847000);
+}
+
+export type Zebi<U extends AnyUnit> = BasicConv<
+  U,
+  "Zebi",
+  1.1805916207174113e21
+>;
+export function zebi<U extends AnyUnit>(u: U): Zebi<U> {
+  return basicConv(u, "Zebi", 1.1805916207174113e21);
+}
+
+export type Yobi<U extends AnyUnit> = BasicConv<
+  U,
+  "Yobi",
+  1.2089258196146292e24
+>;
+export function yobi<U extends AnyUnit>(u: U): Yobi<U> {
+  return basicConv(u, "Yobi", 1.2089258196146292e24);
+}
+
+// * 1000s
+
 export type Kilo<U extends AnyUnit> = BasicConv<U, "Kilo", 1000>;
 export function kilo<U extends AnyUnit>(u: U): Kilo<U> {
   return basicConv(u, "Kilo", 1000);
