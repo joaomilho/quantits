@@ -41,6 +41,34 @@ import {
   luminousFlux,
   CatalyticActivity,
   catalyticActivity,
+  Acceleration,
+  acceleration,
+  Force,
+  force,
+  Pressure,
+  pressure,
+  Energy,
+  energy,
+  Power,
+  power,
+  ElectricPotentialDifference,
+  electricPotentialDifference,
+  Capacitance,
+  capacitance,
+  ElectricResistance,
+  electricResistance,
+  ElectricConductance,
+  electricConductance,
+  MagneticFlux,
+  magneticFlux,
+  MagneticFluxDensity,
+  magneticFluxDensity,
+  Inductance,
+  inductance,
+  Illuminance,
+  illuminance,
+  AbsorbedDose,
+  absorbedDose,
 } from "../dimensions/physics";
 
 import {
@@ -102,17 +130,6 @@ export type PhysicsUnit =
 
 // Composed physics units
 
-export type MeterPerSecond = ComposedUnit<
-  "MeterPerSecond",
-  Speed,
-  [Meter, Second]
->;
-export const meterPerSecond: MeterPerSecond = composedUnit(
-  "MeterPerSecond",
-  speed,
-  [meter, second]
-);
-
 export type SquareMeter = ComposedUnit<"SquareMeter", Area, [Meter]>;
 export const squareMeter: SquareMeter = composedUnit("SquareMeter", area, [
   meter,
@@ -140,12 +157,7 @@ export const hertz: Hertz = composedUnit("Hertz", frequency, [second]);
 export type Becquerel = Hertz;
 export const becquerel = hertz;
 
-//
-
-// export type Kilometer = Kilo<Meter>;
-// export const kilometer: Kilometer = kilo(meter);
-// export const kilometers = kilometer;
-
+// Length
 export type Centimeter = Centi<Meter>;
 export const centimeter: Centimeter = centi(meter);
 export const centimeters = centimeter;
@@ -154,9 +166,11 @@ export type Kilometer = Kilo<Meter>;
 export const kilometer: Kilometer = kilo(meter);
 export const kilometers = kilometer;
 
+// Volume
 export type Liter = ConversionUnit<"Liter", Equal<0.01, SquareMeter>>;
 export const liter: Liter = conversionUnit("Liter", equal(0.01, squareMeter));
 
+// Time
 export type Minute = Sixty<Second, "Minute">;
 export const minute: Minute = sixty(second, "Minute");
 export const minutes = minute;
@@ -164,6 +178,18 @@ export const minutes = minute;
 export type Hour = ConversionUnit<"Hour", Equal<3600, Second>>;
 export const hour: Hour = conversionUnit("Hour", equal(3600, second));
 export const hours = hour;
+
+// Speed
+export type MeterPerSecond = ComposedUnit<
+  "MeterPerSecond",
+  Speed,
+  [Meter, Second]
+>;
+export const meterPerSecond: MeterPerSecond = composedUnit(
+  "MeterPerSecond",
+  speed,
+  [meter, second]
+);
 
 export type KilometerPerHour = ComposedUnit<
   "KilometerPerHour",
@@ -202,27 +228,38 @@ export const steradian: Steradian = unit("Steradian", solidAngle);
 // N : Unit Force'
 // N = Newton
 
-// export type Newton = ComposedUnit<"Newton", Force, [Acceleration, Mass]>;
-// export const newton: Coulomb = composedUnit("Newton", force, [
-//   acceleration,
-//   mass,
-// ]);
+export type MeterPerSecondSquare = ComposedUnit<
+  "MeterPerSecondSquare",
+  Acceleration,
+  [MeterPerSecond, Second]
+>;
+export const meterPerSecondSquare: MeterPerSecondSquare = composedUnit(
+  "MeterPerSecondSquare",
+  acceleration,
+  [meterPerSecond, second]
+);
 
-// TODO
-// Pascal : Unit Pressure
-// Pascal = Newton <//> (Metre ^^ 2)
-// Pa : Unit Pressure
-// Pa = Pascal
+export type Newton = ComposedUnit<
+  "Newton",
+  Force,
+  [MeterPerSecondSquare, Kilogram]
+>;
+export const newton: Newton = composedUnit("Newton", force, [
+  meterPerSecondSquare,
+  kilogram,
+]);
 
-// Joule : Unit Energy
-// Joule = Newton <**> Metre
-// J : Unit Energy
-// J = Joule
+export type Pascal = ComposedUnit<"Pascal", Pressure, [Newton, SquareMeter]>;
+export const pascal: Pascal = composedUnit("Pascal", pressure, [
+  newton,
+  squareMeter,
+]);
 
-// Watt : Unit Power
-// Watt = Joule <//> Second
-// W : Unit Power
-// W = Watt
+export type Joule = ComposedUnit<"Joule", Energy, [Newton, Meter]>;
+export const joule: Joule = composedUnit("Joule", energy, [newton, meter]);
+
+export type Watt = ComposedUnit<"Watt", Power, [Joule, Second]>;
+export const watt: Watt = composedUnit("Watt", power, [joule, second]);
 
 export type Coulomb = ComposedUnit<"Coulomb", ElectricCharge, [Second, Ampere]>;
 export const coulomb: Coulomb = composedUnit("Coulomb", electricCharge, [
@@ -230,38 +267,47 @@ export const coulomb: Coulomb = composedUnit("Coulomb", electricCharge, [
   ampere,
 ]);
 
-// Volt : Unit ElectricPotentialDifference
-// Volt = Watt <//> Ampere
-// V : Unit ElectricPotentialDifference
-// V = Volt
+export type Volt = ComposedUnit<
+  "Volt",
+  ElectricPotentialDifference,
+  [Watt, Ampere]
+>;
+export const volt: Volt = composedUnit("Volt", electricPotentialDifference, [
+  watt,
+  ampere,
+]);
 
-// Farad : Unit Capacitance
-// Farad = Coulomb <//> Volt
-// F : Unit Capacitance
-// F = Farad
+export type Farad = ComposedUnit<"Farad", Capacitance, [Coulomb, Volt]>;
+export const farad: Farad = composedUnit("Farad", capacitance, [coulomb, volt]);
 
-// Ohm : Unit ElectricResistance
-// Ohm = Volt <//> Ampere
+export type Ohm = ComposedUnit<"Ohm", ElectricResistance, [Volt, Ampere]>;
+export const ohm: Ohm = composedUnit("Ohm", electricResistance, [volt, ampere]);
 
-// Siemens : Unit ElectricConductance
-// Siemens = Ampere <//> Volt
-// S : Unit ElectricConductance
-// S = Siemens
+export type Siemens = ComposedUnit<
+  "Siemens",
+  ElectricConductance,
+  [Ampere, Volt]
+>;
+export const siemens: Siemens = composedUnit("Siemens", electricConductance, [
+  ampere,
+  volt,
+]);
 
-// Weber : Unit MagneticFlux
-// Weber = Second <**> Volt
-// Wb : Unit MagneticFlux
-// Wb = Weber
+export type Weber = ComposedUnit<"Weber", MagneticFlux, [Second, Volt]>;
+export const weber: Weber = composedUnit("Weber", magneticFlux, [second, volt]);
 
-// Tesla : Unit MagneticFluxDensity
-// Tesla = Weber <//> (Metre ^^ 2)
-// T : Unit MagneticFluxDensity
-// T = Tesla
+export type Tesla = ComposedUnit<
+  "Tesla",
+  MagneticFluxDensity,
+  [Weber, SquareMeter]
+>;
+export const tesla: Tesla = composedUnit("Tesla", magneticFluxDensity, [
+  weber,
+  squareMeter,
+]);
 
-// Henry : Unit Inductance
-// Henry = Weber <//> Ampere
-// H : Unit Inductance
-// H = Henry
+export type Henry = ComposedUnit<"Henry", Inductance, [Weber, Ampere]>;
+export const henry: Henry = composedUnit("Henry", inductance, [weber, ampere]);
 
 // -- For relative temperature measurements
 // Celsius : Unit Temperature
@@ -275,23 +321,14 @@ export const lumen: Lumen = composedUnit("Lumen", luminousFlux, [
   steradian,
 ]);
 
-// Lux : Unit Illuminance
-// Lux = Lumen <//> (Metre ^^ 2)
-// Lx : Unit Illuminance
-// Lx = Lux
+export type Lux = ComposedUnit<"Lux", Illuminance, [Lumen, SquareMeter]>;
+export const lux: Lux = composedUnit("Lux", illuminance, [lumen, squareMeter]);
 
-// Bq : Unit ActivityReferredToARadionuclide
-// Bq = Becquerel
+export type Gray = ComposedUnit<"Gray", AbsorbedDose, [Joule, Kilogram]>;
+export const gray: Gray = composedUnit("Gray", absorbedDose, [joule, kilogram]);
 
-// Gray : Unit AbsorbedDose
-// Gray = Joule <//> Kilogram
-// Gy : Unit AbsorbedDose
-// Gy = Gray
-
-// Sievert : Unit DoseEquivalent
-// Sievert = Joule <//> Kilogram
-// Sv : Unit DoseEquivalent
-// Sv = Sievert
+export type Sievert = Gray;
+export const sievert = gray;
 
 export type Katal = ComposedUnit<"Katal", CatalyticActivity, [Mole, Second]>;
 export const katal: Katal = composedUnit("Katal", catalyticActivity, [
