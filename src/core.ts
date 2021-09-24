@@ -1,5 +1,5 @@
 // Ops
-export type Operation = "*" | "/" | "^" | "√";
+export type Operation = "+" | "-" | "*" | "/" | "^" | "√";
 
 // Basic dimensions
 export type Dimension<Name extends string> = {

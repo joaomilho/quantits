@@ -1,4 +1,33 @@
-import { AnyUnit, Conversion, ConversionUnit, conversionUnit } from "../core";
+import {
+  AnyConversion,
+  AnyUnit,
+  Conversion,
+  ConversionUnit,
+  conversionUnit,
+  Operation,
+} from "../core";
+
+export type Sum<U extends AnyUnit, N extends number> = Conversion<U, "+", N>;
+
+export function sum<U extends AnyUnit, N extends number>(
+  u: U,
+  n: N
+): Sum<U, N> {
+  return { u, op: "+", n };
+}
+
+export type Subtract<U extends AnyUnit, N extends number> = Conversion<
+  U,
+  "-",
+  N
+>;
+
+export function subtract<U extends AnyUnit, N extends number>(
+  u: U,
+  n: N
+): Subtract<U, N> {
+  return { u, op: "-", n };
+}
 
 export type Multiply<U extends AnyUnit, N extends number> = Conversion<
   U,

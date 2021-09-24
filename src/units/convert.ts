@@ -7,6 +7,10 @@ function calculate(ops: Operations, result = 1): number {
   const [op, n] = ops.shift() as [Operation, number];
 
   switch (op) {
+    case "+":
+      return calculate(ops, result + n);
+    case "-":
+      return calculate(ops, result - n);
     case "*":
       return calculate(ops, result * n);
     case "/":
@@ -29,6 +33,10 @@ function calculate(ops: Operations, result = 1): number {
 
 function invertOp(op: Operation): Operation {
   switch (op) {
+    case "+":
+      return "-";
+    case "-":
+      return "+";
     case "*":
       return "/";
     case "/":

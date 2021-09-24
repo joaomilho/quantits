@@ -6,6 +6,7 @@ import {
   conversionUnit,
   ConversionUnit,
 } from "../core";
+
 import {
   Length,
   length,
@@ -80,6 +81,10 @@ import {
   Kilo,
   sixty,
   Sixty,
+  sum,
+  Sum,
+  multiply,
+  Multiply,
 } from "./helpers";
 
 // Basic physics units
@@ -309,12 +314,6 @@ export const tesla: Tesla = composedUnit("Tesla", magneticFluxDensity, [
 export type Henry = ComposedUnit<"Henry", Inductance, [Weber, Ampere]>;
 export const henry: Henry = composedUnit("Henry", inductance, [weber, ampere]);
 
-// -- For relative temperature measurements
-// Celsius : Unit Temperature
-// Celsius = Kelvin
-// DC : Unit Temperature
-// DC = Celsius
-
 export type Lumen = ComposedUnit<"Lumen", LuminousFlux, [Candela, Steradian]>;
 export const lumen: Lumen = composedUnit("Lumen", luminousFlux, [
   candela,
@@ -335,3 +334,17 @@ export const katal: Katal = composedUnit("Katal", catalyticActivity, [
   mol,
   second,
 ]);
+
+// Non standard temperatures
+
+export type Celsius = ConversionUnit<"Celsius", Sum<Kelvin, 273.15>>;
+export const celsius: Celsius = conversionUnit("Celsius", sum(kelvin, 273.15));
+
+export type Fahrenheit = ConversionUnit<
+  "Fahrenheit",
+  Sum<ConversionUnit<"_", Multiply<Kelvin, 1.8>>, 32>
+>;
+export const farenheit = conversionUnit(
+  "Fahrenheit",
+  sum(conversionUnit("_", multiply(kelvin, 1.8)), 32)
+);

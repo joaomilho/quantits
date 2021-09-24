@@ -2,14 +2,17 @@ import { dimension, unit } from "../core";
 import { kilo } from "./helpers";
 import { ConversionError, convert } from "./convert";
 import {
+  celsius,
   centimeter,
   hertz,
+  kelvin,
   kilometer,
   meter,
   minute,
   second,
   squareMeter,
 } from "./physics";
+import { farenheit } from ".";
 
 describe("convert", () => {
   test("identical unit", () => {
@@ -39,6 +42,10 @@ describe("convert", () => {
 
     expect(convert(megathing, gigathing)).toBe(1000);
     expect(convert(gigathing, megathing)).toBe(1 / 1000);
+
+    // temp
+    expect(convert(celsius, kelvin)).toBe(1 - 273.15);
+    expect(convert(farenheit, kelvin)).toBe(-17.22222222222222);
   });
 
   test("incompatible dimensions", () => {
