@@ -70,6 +70,8 @@ import {
   illuminance,
   AbsorbedDose,
   absorbedDose,
+  Density,
+  density,
 } from "../dimensions/physics";
 
 import {
@@ -79,6 +81,10 @@ import {
   Equal,
   kilo,
   Kilo,
+  mili,
+  Mili,
+  Pico,
+  pico,
   sixty,
   Sixty,
   sum,
@@ -169,18 +175,104 @@ export type Kilometer = Kilo<Meter>;
 export const kilometer: Kilometer = kilo(meter);
 export const kilometers = kilometer;
 
+export type LightYear = ConversionUnit<
+  "LightYear",
+  Equal<9460730472580800, Meter>
+>;
+export const lightYear: LightYear = conversionUnit(
+  "LightYear",
+  equal(9460730472580800, meter)
+);
+export const lightYears = lightYear;
+
 // Volume
 export type Liter = ConversionUnit<"Liter", Equal<0.001, CubicMeter>>;
 export const liter: Liter = conversionUnit("Liter", equal(0.001, cubicMeter));
 
 // Time
+
+export type Picosecond = Pico<Second>;
+export const picosecond: Picosecond = pico(second);
+export const picoseconds = picosecond;
+
+export type Milisecond = Mili<Second>;
+export const milisecond: Milisecond = mili(second);
+export const miliseconds = milisecond;
+
 export type Minute = Sixty<Second, "Minute">;
-export const minute: Minute = sixty(second, "Minute");
+export const minute: Minute = sixty(seconds, "Minute");
 export const minutes = minute;
 
-export type Hour = ConversionUnit<"Hour", Equal<3600, Second>>;
-export const hour: Hour = conversionUnit("Hour", equal(3600, second));
+export type Hour = Sixty<Minute, "Hour">;
+export const hour: Hour = sixty(minutes, "Hour");
 export const hours = hour;
+
+export type Day = ConversionUnit<"Day", Equal<24, Hour>>;
+export const day: Day = conversionUnit("Day", equal(24, hours));
+export const days = day;
+
+export type Week = ConversionUnit<"Week", Equal<7, Day>>;
+export const week: Week = conversionUnit("Week", equal(7, days));
+export const weeks = week;
+
+export type LunarSynodicMonth = ConversionUnit<
+  "LunarSynodicMonth",
+  Equal<14.77, Day>
+>;
+export const lunarSynodicMonth: LunarSynodicMonth = conversionUnit(
+  "LunarSynodicMonth",
+  equal(14.77, days)
+);
+export const lunarSynodicMonths = lunarSynodicMonth;
+
+export type Fortnight = ConversionUnit<"Fortnight", Equal<14, Day>>;
+export const fortnight: Fortnight = conversionUnit(
+  "Fortnight",
+  equal(14, days)
+);
+export const fortnights = fortnight;
+
+export type Year = ConversionUnit<"Year", Equal<365.25, Day>>; // Sort of...
+export const year: Year = conversionUnit("Year", equal(365.25, days));
+export const years = year;
+
+export type TropicalYear = ConversionUnit<
+  "TropicalYear",
+  Equal<365.24219, Day>
+>;
+export const tropicalYear: TropicalYear = conversionUnit(
+  "TropicalYear",
+  equal(365.24219, days)
+);
+export const tropicalYears = tropicalYear;
+
+export type SiderealYear = ConversionUnit<
+  "SiderealYear",
+  Equal<365.256363004, Day>
+>;
+export const siderealYear: SiderealYear = conversionUnit(
+  "SiderealYear",
+  equal(365.256363004, days)
+);
+export const siderealYears = siderealYear;
+
+export type Lustrum = ConversionUnit<"Lustrum", Equal<5, Year>>;
+export const lustrum: Lustrum = conversionUnit("Lustrum", equal(5, year));
+
+export type Decade = ConversionUnit<"Decade", Equal<10, Year>>;
+export const decade: Decade = conversionUnit("Decade", equal(10, year));
+export const decades = decade;
+
+export type Century = ConversionUnit<"Century", Equal<100, Year>>;
+export const century: Century = conversionUnit("Century", equal(100, year));
+export const centuries = century;
+
+export type Millenium = ConversionUnit<"Millenium", Equal<1000, Year>>;
+export const millenium: Millenium = conversionUnit(
+  "Millenium",
+  equal(1000, year)
+);
+export const millenia = millenium;
 
 // Speed
 export type MeterPerSecond = ComposedUnit<
@@ -345,4 +437,51 @@ export type Fahrenheit = ConversionUnit<
 export const farenheit = conversionUnit(
   "Fahrenheit",
   sum(conversionUnit("_", equal(1.8, celsius)), 32)
+);
+
+export type MassPerUnitVolume = ComposedUnit<
+  "MassPerUnitVolume",
+  Density,
+  [Kilogram, CubicMeter]
+>;
+
+export const massPerUnitVolume: MassPerUnitVolume = composedUnit(
+  "MassPerUnitVolume",
+  density,
+  [kilogram, cubicMeter]
+);
+
+// Planck
+
+export type PlanckLength = ConversionUnit<
+  "PlanckLength",
+  Equal<1.616255e-35, Meter>
+>;
+export const planckLength: PlanckLength = conversionUnit(
+  "PlanckLength",
+  equal(1.616255e-35, meter)
+);
+
+export type PlanckTime = ConversionUnit<"PlanckTime", Equal<5.39e-44, Second>>;
+export const planckTime: PlanckTime = conversionUnit(
+  "PlanckTime",
+  equal(5.39e-44, second)
+);
+
+export type PlanckMass = ConversionUnit<
+  "PlanckMass",
+  Equal<2.176434e-8, Kilogram>
+>;
+export const planckMass: PlanckMass = conversionUnit(
+  "PlanckMass",
+  equal(2.176434e-8, kilogram)
+);
+
+export type PlanckTemperature = ConversionUnit<
+  "PlanckTemperature",
+  Equal<1.416784e32, Kelvin>
+>;
+export const planckTemperature: PlanckTemperature = conversionUnit(
+  "PlanckTemperature",
+  equal(1.416784e32, kelvin)
 );

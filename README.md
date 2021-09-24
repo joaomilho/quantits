@@ -75,7 +75,7 @@ type Minute = ConversionUnit<"Minute", Equal<60, Second>>;
 const minute: Minute = conversionUnit("Minute", equal(60, second));
 ```
 
-To make conversions simpler, the library defines some conversion helpers, like `Kilo`/`kilo`, `Centi`/`centi`, etc, from the small `Femto`/`femto` to the big `Yotta`/`yotta`. It also provides `Sixty`/`sixty` and some other handy ones. Let's rewrite the code above now:
+To make conversions simpler, the library defines some conversion helpers, like `Kilo`/`kilo`, `Centi`/`centi`, etc, from the small `Yocto`/`yocto` to the big `Yotta`/`yotta`. It also provides `Sixty`/`sixty` and some other handy ones. Let's rewrite the code above now:
 
 ```ts
 type Kilometer = Kilo<Meter>;

@@ -114,88 +114,96 @@ export function yobi<U extends AnyUnit>(u: U): Yobi<U> {
 }
 
 // * 1000s
+// https://en.wikipedia.org/wiki/Metric_prefix
 
-export type Kilo<U extends AnyUnit> = BasicConv<U, "Kilo", 1000>;
+export type Kilo<U extends AnyUnit> = BasicConv<U, "Kilo", 1e3>;
 export function kilo<U extends AnyUnit>(u: U): Kilo<U> {
-  return basicConv(u, "Kilo", 1000);
+  return basicConv(u, "Kilo", 1e3);
 }
 
-export type Mega<U extends AnyUnit> = BasicConv<U, "Mega", 1000000>;
+export type Mega<U extends AnyUnit> = BasicConv<U, "Mega", 1e6>;
 export function mega<U extends AnyUnit>(u: U): Mega<U> {
-  return basicConv(u, "Mega", 1000000);
+  return basicConv(u, "Mega", 1e6);
 }
 
-export type Giga<U extends AnyUnit> = BasicConv<U, "Giga", 1000000000>;
+export type Giga<U extends AnyUnit> = BasicConv<U, "Giga", 1e9>;
 export function giga<U extends AnyUnit>(u: U): Giga<U> {
-  return basicConv(u, "Giga", 1000000000);
+  return basicConv(u, "Giga", 1e9);
 }
 
-export type Tera<U extends AnyUnit> = BasicConv<U, "Tera", 1000000000000>;
+export type Tera<U extends AnyUnit> = BasicConv<U, "Tera", 1e12>;
 export function tera<U extends AnyUnit>(u: U): Tera<U> {
-  return basicConv(u, "Tera", 1000000000000);
+  return basicConv(u, "Tera", 1e12);
 }
 
-export type Peta<U extends AnyUnit> = BasicConv<U, "Peta", 1000000000000000>;
+export type Peta<U extends AnyUnit> = BasicConv<U, "Peta", 1e15>;
 export function peta<U extends AnyUnit>(u: U): Peta<U> {
-  return basicConv(u, "Peta", 1000000000000000);
+  return basicConv(u, "Peta", 1e15);
 }
 
-export type Exa<U extends AnyUnit> = BasicConv<U, "Exa", 1000000000000000000>;
+export type Exa<U extends AnyUnit> = BasicConv<U, "Exa", 1e18>;
 export function exa<U extends AnyUnit>(u: U): Exa<U> {
-  return basicConv(u, "Exa", 1000000000000000000);
+  return basicConv(u, "Exa", 1e18);
 }
 
-export type Zetta<U extends AnyUnit> = BasicConv<
-  U,
-  "Zetta",
-  1000000000000000000000
->;
+export type Zetta<U extends AnyUnit> = BasicConv<U, "Zetta", 1e21>;
 export function zetta<U extends AnyUnit>(u: U): Zetta<U> {
-  return basicConv(u, "Zetta", 1000000000000000000000);
+  return basicConv(u, "Zetta", 1e21);
 }
 
-export type Yotta<U extends AnyUnit> = BasicConv<
-  U,
-  "Yotta",
-  1000000000000000000000000
->;
+export type Yotta<U extends AnyUnit> = BasicConv<U, "Yotta", 1e24>;
 export function yotta<U extends AnyUnit>(u: U): Yotta<U> {
-  return basicConv(u, "Yotta", 1000000000000000000000000);
+  return basicConv(u, "Yotta", 1e24);
 }
 
-export type Deci<U extends AnyUnit> = BasicConv<U, "Deci", 0.1>;
+export type Deci<U extends AnyUnit> = BasicConv<U, "Deci", 1e-1>;
 export function deci<U extends AnyUnit>(u: U): Deci<U> {
-  return basicConv(u, "Deci", 0.1);
+  return basicConv(u, "Deci", 1e-1);
 }
 
-export type Centi<U extends AnyUnit> = BasicConv<U, "Centi", 0.01>;
+export type Centi<U extends AnyUnit> = BasicConv<U, "Centi", 1e-2>;
 export function centi<U extends AnyUnit>(u: U): Centi<U> {
-  return basicConv(u, "Centi", 0.01);
+  return basicConv(u, "Centi", 1e-2);
 }
 
-export type Mili<U extends AnyUnit> = BasicConv<U, "Mili", 0.001>;
+export type Mili<U extends AnyUnit> = BasicConv<U, "Mili", 1e-3>;
 export function mili<U extends AnyUnit>(u: U): Mili<U> {
-  return basicConv(u, "Mili", 0.001);
+  return basicConv(u, "Mili", 1e-3);
 }
 
-export type Micro<U extends AnyUnit> = BasicConv<U, "Micro", 0.000001>;
+export type Micro<U extends AnyUnit> = BasicConv<U, "Micro", 1e-6>;
 export function micro<U extends AnyUnit>(u: U): Micro<U> {
-  return basicConv(u, "Micro", 0.000001);
+  return basicConv(u, "Micro", 1e-6);
 }
 
-export type Nano<U extends AnyUnit> = BasicConv<U, "Nano", 0.000000001>;
+export type Nano<U extends AnyUnit> = BasicConv<U, "Nano", 1e-9>;
 export function nano<U extends AnyUnit>(u: U): Nano<U> {
-  return basicConv(u, "Nano", 0.000000001);
+  return basicConv(u, "Nano", 1e-9);
 }
 
-export type Pico<U extends AnyUnit> = BasicConv<U, "Pico", 0.000000000001>;
+export type Pico<U extends AnyUnit> = BasicConv<U, "Pico", 1e-12>;
 export function pico<U extends AnyUnit>(u: U): Pico<U> {
-  return basicConv(u, "Pico", 0.000000000001);
+  return basicConv(u, "Pico", 1e-12);
 }
 
-export type Femto<U extends AnyUnit> = BasicConv<U, "Femto", 0.000000000000001>;
+export type Femto<U extends AnyUnit> = BasicConv<U, "Femto", 1e-15>;
 export function femto<U extends AnyUnit>(u: U): Femto<U> {
-  return basicConv(u, "Femto", 0.000000000000001);
+  return basicConv(u, "Femto", 1e-15);
+}
+
+export type Atto<U extends AnyUnit> = BasicConv<U, "Atto", 1e-18>;
+export function atto<U extends AnyUnit>(u: U): Atto<U> {
+  return basicConv(u, "Atto", 1e-18);
+}
+
+export type Zepto<U extends AnyUnit> = BasicConv<U, "Zepto", 1e-21>;
+export function zepto<U extends AnyUnit>(u: U): Zepto<U> {
+  return basicConv(u, "Zepto", 1e-21);
+}
+
+export type Yocto<U extends AnyUnit> = BasicConv<U, "Yocto", 1e-24>;
+export function yocto<U extends AnyUnit>(u: U): Yocto<U> {
+  return basicConv(u, "Yocto", 1e-24);
 }
 
 export type Sixty<U extends AnyUnit, Name extends string> = BasicConv<
