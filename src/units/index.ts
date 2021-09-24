@@ -1,4 +1,3 @@
-export * from "./unit";
 export * from "./conversionUnit";
 export * from "./composedUnit";
 export * from "./physics";

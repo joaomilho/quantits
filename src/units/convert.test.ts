@@ -3,7 +3,7 @@ import { dimension } from "../core";
 import { kilo } from "./conversionUnit";
 import { ConversionError, convert } from "./convert";
 import { centimeter, hertz, kilometer, meter, minute, second } from "./physics";
-import { unit } from "./unit";
+import { unit } from "../core";
 
 describe("convert", () => {
   test("identical unit", () => {

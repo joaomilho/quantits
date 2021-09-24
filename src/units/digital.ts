@@ -1,4 +1,4 @@
-import { Unit, unit } from "./unit";
+import { Unit, unit } from "../core";
 import { information, Information } from "../dimensions/digital";
 import {
   Equal,

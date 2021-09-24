@@ -1,4 +1,4 @@
-import { Unit, unit } from "./unit";
+import { Unit, unit } from "../core";
 import {
   Length,
   length,
@@ -34,10 +34,6 @@ import {
   luminousFlux,
   CatalyticActivity,
   catalyticActivity,
-  Force,
-  Acceleration,
-  acceleration,
-  force,
 } from "../dimensions/physics";
 import { composedUnit, ComposedUnit } from "./composedUnit";
 import {
