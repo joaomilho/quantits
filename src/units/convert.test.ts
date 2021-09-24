@@ -1,5 +1,5 @@
 import { squareMeter } from ".";
-import { dimension } from "../dimensions/dimension";
+import { dimension } from "../core";
 import { kilo } from "./conversionUnit";
 import { ConversionError, convert } from "./convert";
 import { centimeter, hertz, kilometer, meter, minute, second } from "./physics";

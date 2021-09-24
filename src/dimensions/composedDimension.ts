@@ -1,5 +1,5 @@
 import { Operation } from "../operation";
-import { AnySimpleDimension, Dimension } from "./dimension";
+import { AnySimpleDimension, Dimension } from "../core";
 
 export type ComposedDimension<Name extends string, C extends AnyComposition> = {
   type: "ComposedDimension";

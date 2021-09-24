@@ -1,6 +1,6 @@
 // https://en.wikipedia.org/wiki/Bit
 
-import { Dimension, dimension } from "./dimension";
+import { Dimension, dimension } from "../core";
 import { Divide, divide } from "./helpers";
 import { composedDimension, ComposedDimension } from "./composedDimension";
 import { Time, time } from "./physics";

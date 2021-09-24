@@ -1,4 +1,4 @@
-import { AnySimpleDimension } from "../dimensions/dimension";
+import { AnySimpleDimension } from "../core";
 
 export type Unit<Name extends string, D extends AnySimpleDimension> = {
   name: Name;

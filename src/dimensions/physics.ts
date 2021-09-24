@@ -1,6 +1,6 @@
 // https://en.wikipedia.org/wiki/SI_base_unit
 
-import { Dimension, dimension } from "./dimension";
+import { Dimension, dimension } from "../core";
 import {
   Divide,
   divide,
