@@ -46,16 +46,16 @@ export type PhysicsDimension = L | M | T | I | Θ | N | J;
 
 // Scalar
 export type RefractiveIndex = Dimension<"RefractiveIndex">;
-const refractiveIndex = dimension("RefractiveIndex");
+export const refractiveIndex = dimension("RefractiveIndex");
 
 export type RelativePermeability = Dimension<"RelativePermeability">;
-const relativePermeability = dimension("RelativePermeability");
+export const relativePermeability = dimension("RelativePermeability");
 
 export type PlaneAngle = Dimension<"PlaneAngle">;
-const planeAngle = dimension("PlaneAngle");
+export const planeAngle = dimension("PlaneAngle");
 
 export type SolidAngle = Dimension<"SolidAngle">;
-const solidAngle = dimension("SolidAngle");
+export const solidAngle = dimension("SolidAngle");
 
 // Composed dimensions
 export type Speed = Quantity<"Speed", Divide<Length, Time>>;
@@ -230,25 +230,23 @@ export const inductance: Inductance = quantity(
   divide(magneticFlux, electricCurrent)
 );
 
-// -- Celsius temperature
+export type LuminousFlux = Quantity<
+  "LuminousFlux",
+  Multiply<LuminousIntensity, SolidAngle>
+>;
+export const luminousFlux: LuminousFlux = quantity(
+  "LuminousFlux",
+  multiply(luminousIntensity, solidAngle)
+);
 
-// LuminousFlux : Quantity
-// LuminousFlux = LuminousIntensity <*> SolidAngle
-
-// Illuminance : Quantity
-// Illuminance = LuminousFlux </> Area
-
-// export type Illuminance = Quantity<
-//   "MagneticFluxDensity",
-//   Divide<LuminousFlux, Area>
-// >;
-// export const illuminance: Illuminance = quantity(
-//   "MagneticFluxDensity",
-//   divide(luminousFlux, area)
-// );
-
-// AbsorbedDose : Quantity
-// AbsorbedDose = Energy </> Mass
+export type Illuminance = Quantity<
+  "MagneticFluxDensity",
+  Divide<LuminousFlux, Area>
+>;
+export const illuminance: Illuminance = quantity(
+  "MagneticFluxDensity",
+  divide(luminousFlux, area)
+);
 
 export type AbsorbedDose = Quantity<"AbsorbedDose", Divide<Energy, Mass>>;
 export const absorbedDose: AbsorbedDose = quantity(

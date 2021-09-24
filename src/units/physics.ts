@@ -24,6 +24,20 @@ import {
   hypervolume,
   frequency,
   Frequency,
+  PlaneAngle,
+  planeAngle,
+  SolidAngle,
+  solidAngle,
+  ElectricCharge,
+  electricCharge,
+  LuminousFlux,
+  luminousFlux,
+  CatalyticActivity,
+  catalyticActivity,
+  Force,
+  Acceleration,
+  acceleration,
+  force,
 } from "../dimensions/physics";
 import { composedUnit, ComposedUnit } from "./composedUnit";
 import {
@@ -122,6 +136,9 @@ export const hypercubicMeter: HypercubicMeter = composedUnit(
 export type Hertz = ComposedUnit<"Hertz", Frequency, [Second]>;
 export const hertz: Hertz = composedUnit("Hertz", frequency, [second]);
 
+export type Becquerel = Hertz;
+export const becquerel = hertz;
+
 //
 
 // export type Kilometer = Kilo<Meter>;
@@ -163,9 +180,120 @@ export type KilometerPerSecond = ComposedUnit<
   Speed,
   [Kilometer, Second]
 >;
-
 export const kilometerPerSecond: KilometerPerSecond = composedUnit(
   "KilometerPerSecond",
   speed,
   [kilometer, second]
 );
+
+export type Radian = Unit<"Radian", PlaneAngle>;
+export const radian: Radian = unit("Radian", planeAngle);
+
+export type Rad = Radian;
+export const radi = radian;
+
+export type Steradian = Unit<"Steradian", SolidAngle>;
+export const steradian: Steradian = unit("Steradian", solidAngle);
+
+// TODO
+// Newton : Unit Force'
+// Newton = ((Metre <//> Second) <//> Second) <**> Kilogram
+// N : Unit Force'
+// N = Newton
+
+// export type Newton = ComposedUnit<"Newton", Force, [Acceleration, Mass]>;
+// export const newton: Coulomb = composedUnit("Newton", force, [
+//   acceleration,
+//   mass,
+// ]);
+
+// TODO
+// Pascal : Unit Pressure
+// Pascal = Newton <//> (Metre ^^ 2)
+// Pa : Unit Pressure
+// Pa = Pascal
+
+// Joule : Unit Energy
+// Joule = Newton <**> Metre
+// J : Unit Energy
+// J = Joule
+
+// Watt : Unit Power
+// Watt = Joule <//> Second
+// W : Unit Power
+// W = Watt
+
+export type Coulomb = ComposedUnit<"Coulomb", ElectricCharge, [Second, Ampere]>;
+export const coulomb: Coulomb = composedUnit("Coulomb", electricCharge, [
+  second,
+  ampere,
+]);
+
+// Volt : Unit ElectricPotentialDifference
+// Volt = Watt <//> Ampere
+// V : Unit ElectricPotentialDifference
+// V = Volt
+
+// Farad : Unit Capacitance
+// Farad = Coulomb <//> Volt
+// F : Unit Capacitance
+// F = Farad
+
+// Ohm : Unit ElectricResistance
+// Ohm = Volt <//> Ampere
+
+// Siemens : Unit ElectricConductance
+// Siemens = Ampere <//> Volt
+// S : Unit ElectricConductance
+// S = Siemens
+
+// Weber : Unit MagneticFlux
+// Weber = Second <**> Volt
+// Wb : Unit MagneticFlux
+// Wb = Weber
+
+// Tesla : Unit MagneticFluxDensity
+// Tesla = Weber <//> (Metre ^^ 2)
+// T : Unit MagneticFluxDensity
+// T = Tesla
+
+// Henry : Unit Inductance
+// Henry = Weber <//> Ampere
+// H : Unit Inductance
+// H = Henry
+
+// -- For relative temperature measurements
+// Celsius : Unit Temperature
+// Celsius = Kelvin
+// DC : Unit Temperature
+// DC = Celsius
+
+export type Lumen = ComposedUnit<"Lumen", LuminousFlux, [Candela, Steradian]>;
+export const lumen: Lumen = composedUnit("Lumen", luminousFlux, [
+  candela,
+  steradian,
+]);
+
+// Lux : Unit Illuminance
+// Lux = Lumen <//> (Metre ^^ 2)
+// Lx : Unit Illuminance
+// Lx = Lux
+
+// Bq : Unit ActivityReferredToARadionuclide
+// Bq = Becquerel
+
+// Gray : Unit AbsorbedDose
+// Gray = Joule <//> Kilogram
+// Gy : Unit AbsorbedDose
+// Gy = Gray
+
+// Sievert : Unit DoseEquivalent
+// Sievert = Joule <//> Kilogram
+// Sv : Unit DoseEquivalent
+// Sv = Sievert
+
+export type Katal = ComposedUnit<"Katal", CatalyticActivity, [Mole, Second]>;
+export const katal: Katal = composedUnit("Katal", catalyticActivity, [
+  mol,
+  second,
+]);
