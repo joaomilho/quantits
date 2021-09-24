@@ -207,3 +207,7 @@ export const warholPer15Minutes: WarholPer15Minutes = composedUnit(
   [warhol, quarter]
 );
 ```
+
+## More docs
+
+Please refer to th [API Extractor docs](etc/quantits.api.md) for a comprehensive list of exported types and functions.
