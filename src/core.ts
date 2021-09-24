@@ -34,8 +34,8 @@ export function composedDimension<
 
 export const quantity = composedDimension;
 
-export type AnyComposedDimansion = ComposedDimension<string, AnyComposition>;
-export type AnyDimension = AnySimpleDimension | AnyComposedDimansion;
+export type AnyComposedDimension = ComposedDimension<string, AnyComposition>;
+export type AnyDimension = AnySimpleDimension | AnyComposedDimension;
 
 export type Composition<
   D1 extends AnyDimension,
@@ -74,7 +74,7 @@ export type AnySimpleUnit = Unit<string, AnySimpleDimension>;
 
 export type ComposedUnit<
   Name extends string,
-  CD extends AnyComposedDimansion,
+  CD extends AnyComposedDimension,
   US extends AnyUnit[]
 > = {
   type: "ComposedUnit";
@@ -85,13 +85,13 @@ export type ComposedUnit<
 
 export function composedUnit<
   Name extends string,
-  CD extends AnyComposedDimansion,
+  CD extends AnyComposedDimension,
   US extends AnyUnit[]
 >(name: Name, dimension: CD, composedUnits: US): ComposedUnit<Name, CD, US> {
   return { type: "ComposedUnit", name, dimension, composedUnits };
 }
 
-export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimansion, any>;
+export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimension, any>;
 
 // Conversion units
 
