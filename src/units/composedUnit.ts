@@ -1,4 +1,4 @@
-import { AnyComposedDimansion } from "../dimensions/composedDimension";
+import { AnyComposedDimansion } from "../core";
 import { AnyUnit } from "./anyUnit";
 
 export type ComposedUnit<

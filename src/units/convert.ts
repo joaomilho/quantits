@@ -1,7 +1,6 @@
-import { Operation } from "../operation";
+import { Operation } from "../core";
 import { AnyUnit } from "./anyUnit";
 import { AnyConversionUnit } from "./conversionUnit";
-import { kilometer, meter, squareMeter } from "./physics";
 import { AnySimpleUnit } from "./unit";
 
 type Operations = [Operation, number][];

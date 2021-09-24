@@ -1,14 +1,4 @@
-// import { Any as AnyDimension } from "../dimensions/dimension";
-// import { BasicUnit as PhysicsBasicUnit } from "./physics/basic/basic";
-// import { BasicUnit as DigitalBasicUnit } from "./digital";
-// import {
-//   Derivation,
-//   SimpleUnit as Unit,
-//   AnyUnit,
-//   simpleUnit as unit,
-// } from "./unit";
-
-import { Operation } from "../operation";
+import { Operation } from "../core";
 import { AnyUnit } from "./anyUnit";
 
 export type Conversion<

@@ -1,4 +1,4 @@
-import { AnyDimension, Composition } from "./composedDimension";
+import { AnyDimension, Composition } from "../core";
 
 export type Multiply<
   Q1 extends AnyDimension,
