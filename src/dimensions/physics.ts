@@ -44,6 +44,19 @@ export const luminousIntensity: LuminousIntensity =
 
 export type PhysicsDimension = L | M | T | I | Θ | N | J;
 
+// Scalar
+export type RefractiveIndex = Dimension<"RefractiveIndex">;
+const refractiveIndex = dimension("RefractiveIndex");
+
+export type RelativePermeability = Dimension<"RelativePermeability">;
+const relativePermeability = dimension("RelativePermeability");
+
+export type PlaneAngle = Dimension<"PlaneAngle">;
+const planeAngle = dimension("PlaneAngle");
+
+export type SolidAngle = Dimension<"SolidAngle">;
+const solidAngle = dimension("SolidAngle");
+
 // Composed dimensions
 export type Speed = Quantity<"Speed", Divide<Length, Time>>;
 export const speed: Speed = quantity("Speed", divide(length, time));
@@ -135,6 +148,9 @@ export const force: Force = quantity("Force", multiply(acceleration, mass));
 export type Pressure = Quantity<"Pressure", Divide<Force, Area>>;
 export const pressure: Pressure = quantity("Pressure", divide(force, area));
 
+export type Stress = Pressure;
+const stress: Stress = pressure;
+
 export type Energy = Quantity<"Energy", Multiply<Force, Length>>;
 export const energy: Energy = quantity("Energy", multiply(force, length));
 
@@ -152,3 +168,296 @@ export const electricCharge: ElectricCharge = quantity(
   "ElectricCharge",
   multiply(electricCurrent, time)
 );
+
+export type ElectricPotentialDifference = Quantity<
+  "ElectricPotentialDifference",
+  Divide<Power, ElectricCurrent>
+>;
+export const electricPotentialDifference: ElectricPotentialDifference =
+  quantity("ElectricPotentialDifference", divide(power, electricCurrent));
+
+export type Capacitance = Quantity<
+  "Capacitance",
+  Divide<ElectricCharge, ElectricPotentialDifference>
+>;
+export const capacitance: Capacitance = quantity(
+  "Capacitance",
+  divide(electricCharge, electricPotentialDifference)
+);
+
+export type ElectricResistance = Quantity<
+  "ElectricResistance",
+  Divide<ElectricPotentialDifference, ElectricCurrent>
+>;
+export const electricResistance: ElectricResistance = quantity(
+  "ElectricResistance",
+  divide(electricPotentialDifference, electricCurrent)
+);
+
+export type ElectricConductance = Quantity<
+  "ElectricConductance",
+  Divide<ElectricCurrent, ElectricPotentialDifference>
+>;
+export const electricConductance: ElectricConductance = quantity(
+  "ElectricConductance",
+  divide(electricCurrent, electricPotentialDifference)
+);
+
+export type MagneticFlux = Quantity<
+  "MagneticFlux",
+  Multiply<Time, ElectricPotentialDifference>
+>;
+export const magneticFlux: MagneticFlux = quantity(
+  "MagneticFlux",
+  multiply(time, electricPotentialDifference)
+);
+
+export type MagneticFluxDensity = Quantity<
+  "MagneticFluxDensity",
+  Divide<MagneticFlux, Area>
+>;
+export const magneticFluxDensity: MagneticFluxDensity = quantity(
+  "MagneticFluxDensity",
+  divide(magneticFlux, area)
+);
+
+export type Inductance = Quantity<
+  "MagneticFluxDensity",
+  Divide<MagneticFlux, ElectricCurrent>
+>;
+export const inductance: Inductance = quantity(
+  "MagneticFluxDensity",
+  divide(magneticFlux, electricCurrent)
+);
+
+// -- Celsius temperature
+
+// LuminousFlux : Quantity
+// LuminousFlux = LuminousIntensity <*> SolidAngle
+
+// Illuminance : Quantity
+// Illuminance = LuminousFlux </> Area
+
+// export type Illuminance = Quantity<
+//   "MagneticFluxDensity",
+//   Divide<LuminousFlux, Area>
+// >;
+// export const illuminance: Illuminance = quantity(
+//   "MagneticFluxDensity",
+//   divide(luminousFlux, area)
+// );
+
+// AbsorbedDose : Quantity
+// AbsorbedDose = Energy </> Mass
+
+export type AbsorbedDose = Quantity<"AbsorbedDose", Divide<Energy, Mass>>;
+export const absorbedDose: AbsorbedDose = quantity(
+  "AbsorbedDose",
+  divide(energy, mass)
+);
+
+export type SpecificEnergy = AbsorbedDose;
+export const specificEnergy = absorbedDose;
+
+export type Kerma = AbsorbedDose;
+export const kerma = absorbedDose;
+
+export type CatalyticActivity = Quantity<
+  "CatalyticActivity",
+  Divide<AmountOfSubstance, Time>
+>;
+export const catalyticActivity: CatalyticActivity = quantity(
+  "CatalyticActivity",
+  divide(amountOfSubstance, time)
+);
+
+export type DynamicViscosity = Quantity<
+  "CatalyticActivity",
+  Multiply<Stress, Time>
+>;
+export const dynamicViscosity: DynamicViscosity = quantity(
+  "CatalyticActivity",
+  multiply(stress, time)
+);
+
+export type KinematicViscosity = Quantity<
+  "KinematicViscosity",
+  Divide<Area, Time>
+>;
+export const kinematicViscosity: KinematicViscosity = quantity(
+  "KinematicViscosity",
+  divide(area, time)
+);
+
+export type MomentOfForce = Quantity<"MomentOfForce", Multiply<Force, Length>>;
+export const momentOfForce: MomentOfForce = quantity(
+  "MomentOfForce",
+  multiply(force, length)
+);
+
+export type Moment = MomentOfForce;
+export const moment = momentOfForce;
+
+export type Torque = MomentOfForce;
+export const torque = momentOfForce;
+
+export type SurfaceTension = Quantity<"SurfaceTension", Divide<Force, Length>>;
+export const surfaceTension: SurfaceTension = quantity(
+  "SurfaceTension",
+  divide(force, length)
+);
+
+// AngularVelocity : Quantity
+// AngularVelocity = PlaneAngle </> Time
+
+// AngularAcceleration : Quantity
+// AngularAcceleration = AngularVelocity </> Time
+
+export type HeatFluxDensity = Quantity<"HeatFluxDensity", Divide<Power, Area>>;
+export const heatFluxDensity: HeatFluxDensity = quantity(
+  "HeatFluxDensity",
+  divide(power, area)
+);
+
+export type Irradiance = HeatFluxDensity;
+export const irradiance = heatFluxDensity;
+
+export type HeatCapacity = Quantity<
+  "HeatCapacity",
+  Divide<Energy, Temperature>
+>;
+export const heatCapacity: HeatCapacity = quantity(
+  "HeatCapacity",
+  divide(energy, temperature)
+);
+
+export type Entropy = HeatCapacity;
+export const entropy = heatCapacity;
+
+export type SpecificHeatCapacity = Quantity<
+  "SpecificHeatCapacity",
+  Divide<HeatCapacity, Mass>
+>;
+export const specificHeatCapacity: SpecificHeatCapacity = quantity(
+  "SpecificHeatCapacity",
+  divide(heatCapacity, mass)
+);
+
+export type SpecificEntropy = SpecificHeatCapacity;
+export const SpecificEntropy = specificHeatCapacity;
+
+// ThermalConductivity : Quantity
+// ThermalConductivity = Power </> (Length <*> Temperature)
+
+// TODO
+// export type ThermalConductivity = Quantity<
+//   "ThermalConductivity",
+//   Divide<Power, Multiply<Length, Temperature>>
+// >;
+// export const thermalConductivity: ThermalConductivity = quantity(
+//   "ThermalConductivity",
+//   divide(length, temperature)
+// );
+
+export type EnergyDensity = Quantity<"EnergyDensity", Divide<Energy, Volume>>;
+export const energyDensity: EnergyDensity = quantity(
+  "EnergyDensity",
+  divide(energy, volume)
+);
+
+export type ElectricFieldStrength = Quantity<
+  "ElectricFieldStrength",
+  Divide<ElectricPotentialDifference, Length>
+>;
+export const electricFieldStrength: ElectricFieldStrength = quantity(
+  "ElectricFieldStrength",
+  divide(electricPotentialDifference, length)
+);
+
+export type ElectricChargeDensity = Quantity<
+  "ElectricChargeDensity",
+  Divide<ElectricCharge, Volume>
+>;
+export const electricChargeDensity: ElectricChargeDensity = quantity(
+  "ElectricChargeDensity",
+  divide(electricCharge, volume)
+);
+
+export type SurfaceChargeDensity = Quantity<
+  "SurfaceChargeDensity",
+  Divide<ElectricCharge, Area>
+>;
+export const surfaceChargeDensity: SurfaceChargeDensity = quantity(
+  "SurfaceChargeDensity",
+  divide(electricCharge, area)
+);
+
+export type ElectricFluxDensity = SurfaceChargeDensity;
+export const electricFluxDensity = surfaceChargeDensity;
+
+export type ElectricDisplacement = SurfaceChargeDensity;
+export const electricDisplacement = surfaceChargeDensity;
+
+export type Permittivity = Quantity<
+  "Permittivity",
+  Divide<Capacitance, Length>
+>;
+export const permittivity: Permittivity = quantity(
+  "Permittivity",
+  divide(capacitance, length)
+);
+
+export type Permettivity = Quantity<"Permeability", Divide<Inductance, Length>>;
+export const permeability: Permeability = quantity(
+  "Permeability",
+  divide(inductance, length)
+);
+
+export type MolarEnergy = Quantity<
+  "MolarEnergy",
+  Divide<Energy, AmountOfSubstance>
+>;
+export const molarEnergy: MolarEnergy = quantity(
+  "MolarEnergy",
+  divide(energy, amountOfSubstance)
+);
+
+export type MolarHeatCapacity = MolarEnergy;
+export const molarHeatCapacity = molarEnergy;
+
+export type Exposure = Quantity<"Exposure", Divide<ElectricCharge, Mass>>;
+export const exposure: Exposure = quantity(
+  "Exposure",
+  divide(electricCharge, mass)
+);
+
+export type AbsorbedDoseRate = Quantity<
+  "AbsorbedDoseRate",
+  Divide<AbsorbedDose, Time>
+>;
+export const absorbedDoseRate: AbsorbedDoseRate = quantity(
+  "AbsorbedDoseRate",
+  divide(absorbedDose, time)
+);
+
+export type RadiantIntensity = Quantity<
+  "RadiantIntensity",
+  Divide<Power, SolidAngle>
+>;
+export const radiantIntensity: RadiantIntensity = quantity(
+  "RadiantIntensity",
+  divide(power, solidAngle)
+);
+
+export type Radiance = Quantity<"Radiance", Divide<RadiantIntensity, Area>>;
+export const radiance: Radiance = quantity(
+  "Radiance",
+  divide(radiantIntensity, area)
+);
+
+export type CatalyticActivityConcentration = Quantity<
+  "CatalyticActivityConcentration",
+  Divide<CatalyticActivity, Volume>
+>;
+export const catalyticActivityConcentration: CatalyticActivityConcentration =
+  quantity("CatalyticActivityConcentration", divide(catalyticActivity, volume));
