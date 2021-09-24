@@ -1,5 +1,18 @@
-import { Unit, unit, ConversionUnit, conversionUnit } from "../core";
-import { information, Information } from "../dimensions/digital";
+import { second, Second } from ".";
+import { composedUnit } from "..";
+import {
+  Unit,
+  unit,
+  ConversionUnit,
+  conversionUnit,
+  ComposedUnit,
+} from "../core";
+import {
+  bandwidth,
+  Bandwidth,
+  information,
+  Information,
+} from "../dimensions/digital";
 import {
   Equal,
   equal,
@@ -123,3 +136,10 @@ export type Zebitryte = Zebi<Tryte>;
 export const zebitryte: Zebitryte = zebi(tryte);
 export type Yobitryte = Yobi<Tryte>;
 export const yobitryte: Yobitryte = yobi(tryte);
+
+// Composed
+export type Bitrate = ComposedUnit<"Bitrate", Bandwidth, [Bit, Second]>;
+const bitrate: Bitrate = composedUnit("Bitrate", bandwidth, [bit, second]);
+
+export type BPS = Bitrate;
+export const bps: Bitrate = bitrate;
