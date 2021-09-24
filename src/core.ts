@@ -95,7 +95,7 @@ export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimansion, any>;
 
 // Conversion units
 
-import { AnyUnit } from "./units/anyUnit";
+export type AnyUnit = AnySimpleUnit | AnyComposedUnit | AnyConversionUnit;
 
 export type Conversion<
   U extends AnyUnit,

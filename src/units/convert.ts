@@ -1,5 +1,4 @@
-import { Operation, AnySimpleUnit, AnyConversionUnit } from "../core";
-import { AnyUnit } from "./anyUnit";
+import { AnyUnit, Operation, AnySimpleUnit, AnyConversionUnit } from "../core";
 
 type Operations = [Operation, number][];
 

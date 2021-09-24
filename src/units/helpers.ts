@@ -1,5 +1,4 @@
-import { Conversion, ConversionUnit, conversionUnit } from "../core";
-import { AnyUnit } from "./anyUnit";
+import { AnyUnit, Conversion, ConversionUnit, conversionUnit } from "../core";
 
 export type Multiply<U extends AnyUnit, N extends number> = Conversion<
   U,
