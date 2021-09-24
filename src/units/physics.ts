@@ -1,4 +1,11 @@
-import { Unit, unit } from "../core";
+import {
+  Unit,
+  unit,
+  composedUnit,
+  ComposedUnit,
+  conversionUnit,
+  ConversionUnit,
+} from "../core";
 import {
   Length,
   length,
@@ -35,19 +42,17 @@ import {
   CatalyticActivity,
   catalyticActivity,
 } from "../dimensions/physics";
-import { composedUnit, ComposedUnit } from "./composedUnit";
+
 import {
   Centi,
   centi,
-  conversionUnit,
-  ConversionUnit,
   equal,
   Equal,
   kilo,
   Kilo,
   sixty,
   Sixty,
-} from "./conversionUnit";
+} from "./helpers";
 
 // Basic physics units
 

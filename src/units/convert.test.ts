@@ -1,9 +1,15 @@
-import { squareMeter } from ".";
-import { dimension } from "../core";
-import { kilo } from "./conversionUnit";
+import { dimension, unit } from "../core";
+import { kilo } from "./helpers";
 import { ConversionError, convert } from "./convert";
-import { centimeter, hertz, kilometer, meter, minute, second } from "./physics";
-import { unit } from "../core";
+import {
+  centimeter,
+  hertz,
+  kilometer,
+  meter,
+  minute,
+  second,
+  squareMeter,
+} from "./physics";
 
 describe("convert", () => {
   test("identical unit", () => {

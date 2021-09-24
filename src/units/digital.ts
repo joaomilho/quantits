@@ -1,4 +1,4 @@
-import { Unit, unit } from "../core";
+import { Unit, unit, ConversionUnit, conversionUnit } from "../core";
 import { information, Information } from "../dimensions/digital";
 import {
   Equal,
@@ -19,8 +19,6 @@ import {
   zetta,
   Yotta,
   yotta,
-  ConversionUnit,
-  conversionUnit,
   Kibi,
   kibi,
   Mebi,
@@ -37,7 +35,7 @@ import {
   zebi,
   Yobi,
   yobi,
-} from "./conversionUnit";
+} from "./helpers";
 
 // Basic units
 export type Bit = Unit<"Bit", Information>;

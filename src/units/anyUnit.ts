@@ -1,5 +1,3 @@
-import { AnyComposedUnit } from "./composedUnit";
-import { AnyConversionUnit } from "./conversionUnit";
-import { AnySimpleUnit } from "../core";
+import { AnySimpleUnit, AnyConversionUnit, AnyComposedUnit } from "../core";
 
 export type AnyUnit = AnySimpleUnit | AnyComposedUnit | AnyConversionUnit;

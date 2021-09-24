@@ -1,33 +1,5 @@
-import { Operation } from "../core";
+import { Conversion, ConversionUnit, conversionUnit } from "../core";
 import { AnyUnit } from "./anyUnit";
-
-export type Conversion<
-  U extends AnyUnit,
-  Op extends Operation,
-  N extends number
-> = { u: U; op: Op; n: N };
-
-export type AnyConversion = {
-  u: AnyUnit;
-  op: Operation;
-  n: number;
-};
-
-export type ConversionUnit<Name extends string, C extends AnyConversion> = {
-  type: "ConversionUnit";
-  name: Name;
-  conversion: C;
-  dimension: null;
-};
-
-export type AnyConversionUnit = ConversionUnit<string, AnyConversion>;
-
-export function conversionUnit<Name extends string, C extends AnyConversion>(
-  name: Name,
-  conversion: C
-): ConversionUnit<Name, C> {
-  return { type: "ConversionUnit", name, conversion, dimension: null };
-}
 
 export type Multiply<U extends AnyUnit, N extends number> = Conversion<
   U,

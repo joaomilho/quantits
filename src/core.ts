@@ -69,3 +69,58 @@ export function unit<Name extends string, D extends AnySimpleDimension>(
 }
 
 export type AnySimpleUnit = Unit<string, AnySimpleDimension>;
+
+// Composed units
+
+export type ComposedUnit<
+  Name extends string,
+  CD extends AnyComposedDimansion,
+  US extends AnyUnit[]
+> = {
+  type: "ComposedUnit";
+  name: Name;
+  dimension: CD;
+  composedUnits: US;
+};
+
+export function composedUnit<
+  Name extends string,
+  CD extends AnyComposedDimansion,
+  US extends AnyUnit[]
+>(name: Name, dimension: CD, composedUnits: US): ComposedUnit<Name, CD, US> {
+  return { type: "ComposedUnit", name, dimension, composedUnits };
+}
+
+export type AnyComposedUnit = ComposedUnit<string, AnyComposedDimansion, any>;
+
+// Conversion units
+
+import { AnyUnit } from "./units/anyUnit";
+
+export type Conversion<
+  U extends AnyUnit,
+  Op extends Operation,
+  N extends number
+> = { u: U; op: Op; n: N };
+
+export type AnyConversion = {
+  u: AnyUnit;
+  op: Operation;
+  n: number;
+};
+
+export type ConversionUnit<Name extends string, C extends AnyConversion> = {
+  type: "ConversionUnit";
+  name: Name;
+  conversion: C;
+  dimension: null;
+};
+
+export type AnyConversionUnit = ConversionUnit<string, AnyConversion>;
+
+export function conversionUnit<Name extends string, C extends AnyConversion>(
+  name: Name,
+  conversion: C
+): ConversionUnit<Name, C> {
+  return { type: "ConversionUnit", name, conversion, dimension: null };
+}
