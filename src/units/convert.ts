@@ -1,3 +1,4 @@
+import { AnyMeasurement } from "..";
 import { AnyUnit, Operation, AnySimpleUnit, AnyConversionUnit } from "../core";
 
 type Operations = [Operation, number][];
@@ -49,26 +50,40 @@ function invertOp(op: Operation): Operation {
   }
 }
 
-export function convert<U1 extends AnyUnit, U2 extends AnyUnit>(
+export function convert<
+  U1 extends AnyUnit | AnyMeasurement,
+  U2 extends AnyUnit
+>(
   u1: U1,
   u2: U2,
-  ops: Operations = []
+  ops: Operations = [],
+  initialValue = 1
 ): CalculateConversion<U1, U2> {
+  if (u1.type === "Measurement") {
+    return convert(u1.u, u2, ops, u1.n) as CalculateConversion<U1, U2>;
+  }
+
   if (u1.name === u2.name) {
-    return calculate(ops) as unknown as CalculateConversion<U1, U2>;
+    return calculate(ops, initialValue) as unknown as CalculateConversion<
+      U1,
+      U2
+    >;
   }
 
   switch (u1.type) {
     case "Unit":
+    case "ComposedUnit":
       switch (u2.type) {
         case "Unit":
           throw new ConversionError(u1, u2);
 
         case "ConversionUnit":
-          return convert(u1, u2.conversion.u, [
-            ...ops,
-            [u2.conversion["op"], u2.conversion["n"]],
-          ]) as CalculateConversion<U1, U2>;
+          return convert(
+            u1,
+            u2.conversion.u,
+            [...ops, [invertOp(u2.conversion["op"]), u2.conversion["n"]]],
+            initialValue
+          ) as CalculateConversion<U1, U2>;
 
         case "ComposedUnit":
           // TODO
@@ -78,22 +93,26 @@ export function convert<U1 extends AnyUnit, U2 extends AnyUnit>(
     case "ConversionUnit":
       switch (u2.type) {
         case "Unit":
-          return convert(u1.conversion.u, u2, [
-            ...ops,
-            [invertOp(u1.conversion["op"]), u1.conversion["n"]],
-          ]) as CalculateConversion<U1, U2>;
+        case "ComposedUnit":
+          return convert(
+            u1.conversion.u,
+            u2,
+            [...ops, [u1.conversion["op"], u1.conversion["n"]]],
+            initialValue
+          ) as CalculateConversion<U1, U2>;
 
         case "ConversionUnit":
-          return convert(u1.conversion.u, u2.conversion.u, [
-            ...ops,
-            [invertOp(u1.conversion["op"]), u1.conversion["n"]],
-            [u2.conversion["op"], u2.conversion["n"]],
-          ]) as CalculateConversion<U1, U2>;
+          return convert(
+            u1.conversion.u,
+            u2.conversion.u,
+            [
+              ...ops,
+              [u1.conversion["op"], u1.conversion["n"]],
+              [invertOp(u2.conversion["op"]), u2.conversion["n"]],
+            ],
+            initialValue
+          ) as CalculateConversion<U1, U2>;
 
-          break;
-
-        case "ComposedUnit":
-          // TODO
           break;
       }
 

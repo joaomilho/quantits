@@ -172,8 +172,8 @@ export const kilometer: Kilometer = kilo(meter);
 export const kilometers = kilometer;
 
 // Volume
-export type Liter = ConversionUnit<"Liter", Equal<0.01, SquareMeter>>;
-export const liter: Liter = conversionUnit("Liter", equal(0.01, squareMeter));
+export type Liter = ConversionUnit<"Liter", Equal<0.001, CubicMeter>>;
+export const liter: Liter = conversionUnit("Liter", equal(0.001, cubicMeter));
 
 // Time
 export type Minute = Sixty<Second, "Minute">;
@@ -346,5 +346,5 @@ export type Fahrenheit = ConversionUnit<
 >;
 export const farenheit = conversionUnit(
   "Fahrenheit",
-  sum(conversionUnit("_", multiply(kelvin, 1.8)), 32)
+  sum(conversionUnit("_", multiply(celsius, 1.8)), 32)
 );

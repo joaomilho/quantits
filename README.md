@@ -127,7 +127,27 @@ convert(meter, second) // ConversionError (typesafe-ish)
 
 ## Measurements
 
-TODO
+A measurement is an arbitrary amount of a certain unit. For instance:
+
+```ts
+measurement(1.71, meters) // my height
+measurement(70, kilograms) // my weight
+measurement(39, years) // my age
+measurement(0, gigabytes) // space left in my hard drive
+measurement(384400, kilometers) // distance from the Earth to the Moon
+measurement(299792458, metersPerSecond) // speed of light (c)
+```
+
+Notice that a measurement is not fundamentally different than a conversion unit, apart from semantics. The speed of light is a measurement, but it can also be used as a unit (just like a kilometer, if you think about it).
+
+You can also use measurements as the first param on the convert helper:
+
+```ts
+convert(measurement(1, meter), meter) // 1
+convert(measurement(0, meter), meter) // 0
+convert(measurement(500, meter), kilometer) // 0.5
+convert(measurement(2, hour), second) // 7200
+```
 
 ## Custom dimensions, quantities, units and measurements
 
@@ -140,11 +160,18 @@ const pain: Pain = dimension("Pain");
 type Dol = Unit<"Dol", Pain>;
 const dol: Dol = unit("Dol", pain);
 
+const sting = measurement(1, dol)
+const brokenLeg = measurement(8, dol)
+
 type Pungency = Dimension<"Pungency">;
 const pungency: Pungency = dimension("Pungency");
 
 type Scoville = Unit<"Scoville", Pungency>;
 const scoville: Scoville = unit("Scoville", pungency);
+
+const paprika = measurement(100, scoville)
+const jalapeno = measurement(5000, scoville)
+const ghostPepper = measurement(1e6, scoville)
 
 type Fame = Dimension<"Fame">;
 const fame: Fame = dimension("Fame");
@@ -152,11 +179,19 @@ const fame: Fame = dimension("Fame");
 type Warhol = Unit<"Warhol", Fame>;
 const warhol: Warhol = unit("Warhol", fame);
 
+const pliniRoesslerHolgate = measurement(100, warhol)
+const beatles = measurement(1e6, warhol)
+const jesus = measurement(1e32, warhol)
+
 type Kilowarhol = Kilo<Warhol>;
 const kilowarhol: Kilowarhol = kilo(warhol);
 
 type Hype = Quantity<"Hype", Divide<Fame, Time>>;
 const hype: Hype = quantity("Hype", divide(fame, time));
+
+const pliniRoesslerHolgate = measurement(100, hype)
+const milliVanilli = measurement(1e6, hype)
+const beatles = measurement(1e32, hype)
 
 type Quarter = ConversionUnit<"Quarter", Equal<15, Minute>>;
 const quarter = conversionUnit("Quarter", equal(15, minute));

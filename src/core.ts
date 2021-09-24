@@ -117,3 +117,19 @@ export function conversionUnit<Name extends string, C extends AnyConversion>(
 ): ConversionUnit<Name, C> {
   return { type: "ConversionUnit", name, conversion, dimension: null };
 }
+
+// Measurement
+export type Measurement<N extends number, U extends AnyUnit> = {
+  type: "Measurement";
+  n: N;
+  u: AnyUnit;
+};
+
+export function measurement<N extends number, U extends AnyUnit>(
+  n: N,
+  u: U
+): Measurement<N, U> {
+  return { type: "Measurement", n, u };
+}
+
+export type AnyMeasurement = Measurement<number, AnyUnit>;
