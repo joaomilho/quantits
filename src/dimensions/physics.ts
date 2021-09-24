@@ -1,14 +1,7 @@
 // https://en.wikipedia.org/wiki/SI_base_unit
 
 import { Dimension, dimension, Quantity, quantity } from "../core";
-import {
-  Divide,
-  divide,
-  multiply,
-  Multiply,
-  Power as Pow,
-  power as pow,
-} from "./helpers";
+import { Divide, divide, multiply, Multiply, Pow, pow } from "./helpers";
 
 // Basic physics dimensions
 export type Length = Dimension<"Length">;

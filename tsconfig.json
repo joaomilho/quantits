@@ -9,7 +9,8 @@
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
     "outDir": "lib",
     // For API extractor
-    "declaration": true
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "src/**/*.ts"

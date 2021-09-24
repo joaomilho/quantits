@@ -83,8 +83,6 @@ import {
   Sixty,
   sum,
   Sum,
-  multiply,
-  Multiply,
 } from "./helpers";
 
 // Basic physics units
@@ -342,9 +340,9 @@ export const celsius: Celsius = conversionUnit("Celsius", sum(kelvin, 273.15));
 
 export type Fahrenheit = ConversionUnit<
   "Fahrenheit",
-  Sum<ConversionUnit<"_", Multiply<Kelvin, 1.8>>, 32>
+  Sum<ConversionUnit<"_", Equal<1.8, Kelvin>>, 32>
 >;
 export const farenheit = conversionUnit(
   "Fahrenheit",
-  sum(conversionUnit("_", multiply(celsius, 1.8)), 32)
+  sum(conversionUnit("_", equal(1.8, celsius)), 32)
 );

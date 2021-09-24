@@ -24,15 +24,15 @@ export function divide<D1 extends AnyDimension, D2 extends AnyDimension>(
   return { d1, op: "/", d2 };
 }
 
-export type Power<D1 extends AnyDimension, Exp extends number> = Composition<
+export type Pow<D1 extends AnyDimension, Exp extends number> = Composition<
   D1,
   "^",
   Exp
 >;
 
-export function power<D1 extends AnyDimension, Exp extends number>(
+export function pow<D1 extends AnyDimension, Exp extends number>(
   d1: D1,
   exp: Exp
-): Power<D1, Exp> {
+): Pow<D1, Exp> {
   return { d1, op: "^", d2: exp };
 }

@@ -29,26 +29,22 @@ export function subtract<U extends AnyUnit, N extends number>(
   return { u, op: "-", n };
 }
 
-export type Multiply<U extends AnyUnit, N extends number> = Conversion<
-  U,
-  "*",
-  N
->;
+export type Equal<N extends number, U extends AnyUnit> = Conversion<U, "*", N>;
 
-export function multiply<U extends AnyUnit, N extends number>(
-  u: U,
-  n: N
-): Multiply<U, N> {
-  return { u, op: "*", n };
-}
-
-export type Equal<N extends number, U extends AnyUnit> = Multiply<U, N>;
-export function equal<U extends AnyUnit, N extends number>(
+export function equal<N extends number, U extends AnyUnit>(
   n: N,
   u: U
 ): Equal<N, U> {
   return { u, op: "*", n };
 }
+
+// export type Equal<N extends number, U extends AnyUnit> = Multiply<U, N>;
+// export function equal<U extends AnyUnit, N extends number>(
+//   n: N,
+//   u: U
+// ): Equal<N, U> {
+//   return { u, op: "*", n };
+// }
 
 type BasicConv<
   U extends AnyUnit,

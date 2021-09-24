@@ -7,3 +7,4 @@ import { PhysicsUnit } from "./physics";
 export type SimpleUnit = PhysicsUnit | DigitalUnit;
 
 export * from "./convert";
+export * from "./helpers";
