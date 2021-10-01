@@ -123,8 +123,15 @@ export function convert<
             })
             .reduce((acc: Decimal, item: Decimal) => {
               if (!acc) return item;
+
+              switch (u1.dimension.composition.op) {
+                case "*":
+                  return acc.mul(item);
+                case "/":
+                  return acc.div(item);
+                // TODO  all  other ones
+              }
               // TODO what's the relation tho
-              return acc.div(item);
             }, 0);
 
           // u2.composedUnits.map((unit: any) => {

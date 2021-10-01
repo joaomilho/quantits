@@ -28,7 +28,7 @@ All basic quantities are defined in the library:
 - AmountOfSubstance
 - LuminousIntensity
 
-We can also have coomposed dimensions (aka _quantities_):
+We can also have composed dimensions (aka _quantities_):
 
 ```ts
 type Speed = Quantity<"Speed", Divide<Length, Time>>;

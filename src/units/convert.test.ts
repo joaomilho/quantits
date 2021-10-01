@@ -1,5 +1,5 @@
-import { dimension, measurement, unit } from "../core";
-import { kilo } from "./helpers";
+import { composedUnit, dimension, measurement, unit } from "../core";
+import { kilo, mega } from "./helpers";
 import { ConversionError, convert } from "./convert";
 import {
   celsius,
@@ -14,9 +14,24 @@ import {
   fahrenheit,
   hour,
   liter,
+  coulomb,
+  ampere,
 } from "./physics";
-import { cubicMeter, kilometerPerHour, meterPerSecond } from ".";
+import { cubicMeter, kilometerPerHour, meterPerSecond, milisecond } from ".";
 import Decimal from "decimal.js";
+import { electricCharge } from "..";
+import {
+  barleycorn,
+  chain,
+  feet,
+  hand,
+  inch,
+  league,
+  mile,
+  thou,
+  twip,
+  yard,
+} from "./imperial";
 
 describe("convert", () => {
   test("identical unit", () => {
@@ -97,5 +112,51 @@ describe("convert", () => {
     expect(convert(kilometerPerHour, meterPerSecond).toNumber()).toEqual(
       0.2777777777777778
     );
+  });
+
+  test("coulomb", () => {
+    // // coulomb is composed but by multiplying 1s x  1amp
+    expect(convert(coulomb, coulomb).toNumber()).toEqual(1);
+    expect(convert(measurement(100, coulomb), coulomb).toNumber()).toEqual(100);
+
+    const weirdCoulomb1 = composedUnit("weirdCoulomb1", electricCharge, [
+      minute,
+      ampere,
+    ]);
+
+    expect(convert(weirdCoulomb1, coulomb).toNumber()).toEqual(60);
+    expect(convert(coulomb, weirdCoulomb1).toNumber()).toEqual(1 / 60);
+
+    const weirdCoulomb2 = composedUnit("weirdCoulomb2", electricCharge, [
+      milisecond,
+      ampere,
+    ]);
+
+    expect(convert(weirdCoulomb2, coulomb).toNumber()).toEqual(0.001);
+    expect(convert(coulomb, weirdCoulomb2).toNumber()).toEqual(1000);
+
+    const kiloampere = kilo(ampere);
+    const weirdCoulomb3 = composedUnit("weirdCoulomb3", electricCharge, [
+      milisecond,
+      kiloampere,
+    ]);
+
+    expect(convert(weirdCoulomb3, coulomb).toNumber()).toEqual(1);
+    expect(convert(coulomb, weirdCoulomb3).toNumber()).toEqual(1);
+  });
+
+  test("imperial", () => {
+    expect(convert(yard, feet).toNumber()).toEqual(3);
+    expect(convert(chain, yard).toNumber()).toEqual(22);
+    expect(convert(chain, feet).toNumber()).toEqual(66);
+    expect(convert(mile, feet).toNumber()).toEqual(5280);
+    expect(convert(league, mile).toNumber()).toEqual(3);
+
+    expect(convert(feet, hand).toNumber()).toEqual(3);
+    expect(convert(feet, inch).toNumber()).toEqual(12);
+    expect(convert(feet, barleycorn).toNumber()).toEqual(36);
+    expect(convert(feet, thou).toNumber()).toEqual(12000);
+    expect(convert(feet, twip).toNumber()).toEqual(17280);
+    // expect(convert(measurement(100, coulomb), coulomb).toNumber()).toEqual(100);
   });
 });
