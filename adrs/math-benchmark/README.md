@@ -1,0 +1,1 @@
+- https://github.com/ChainSafe/web3.js/issues/2171
