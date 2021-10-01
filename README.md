@@ -85,7 +85,7 @@ type Minute = Sixty<Second, "Minute">;
 const minute: Minute = sixty(second, "Minute");
 ```
 
-Note that in the `Kilo` helper, we can automatically know the name of thee new quantity will be prefixed by "Kilo", so there's no need to provide a name for the new unit, while in the Sixty we had to provide "Minute" as there's no way to infer it.
+Note that in the `Kilo` helper, we can automatically know the name of the new quantity will be prefixed by "Kilo", so there's no need to provide a name for the new unit, while in the Sixty we had to provide "Minute" as there's no way to infer it.
 
 Now for composed dimensions, we use the composed unit helpers. Example:
 
@@ -110,7 +110,7 @@ type Hertz = ComposedUnit<"Hertz", Frequency, [Second]>;
 const hertz: Hertz = composedUnit("Hertz", frequency, [second]);
 ```
 
-Thiis is defining a unit for speed in meters and seconds (note the relation is defined in the dimensions), a unit of volume in terms of meters – cubic meters – and a unit of frequency in terms of seconds – hertz. You could also, as a matter of exercise, define speed in kilometers per hour, feet per year or marathon per femtosecond. Up to you.
+This is defining a unit for speed in meters and seconds (note the relation is defined in the dimensions), a unit of volume in terms of meters – cubic meters – and a unit of frequency in terms of seconds – hertz. You could also, as a matter of exercise, define speed in kilometers per hour, feet per year or marathon per femtosecond. Up to you.
 
 ## convert
 
