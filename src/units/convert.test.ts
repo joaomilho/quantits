@@ -1,6 +1,6 @@
 import { dimension, measurement, unit } from "../core";
 import { kilo } from "./helpers";
-import { ConversionError, convert, to } from "./convert";
+import { ConversionError, convert } from "./convert";
 import {
   celsius,
   centimeter,
@@ -59,29 +59,31 @@ describe("convert", () => {
 
   test("measurements", () => {
     // Simple to simple
-    expect(to(measurement(1, meter), meter).toNumber()).toBe(1);
-    expect(to(measurement(0, meter), meter).toNumber()).toBe(0);
+    expect(convert(measurement(1, meter), meter).toNumber()).toBe(1);
+    expect(convert(measurement(0, meter), meter).toNumber()).toBe(0);
     // Simple to derived
-    expect(to(measurement(0, meter), kilometer).toNumber()).toBe(0);
-    expect(to(measurement(1000, meter), kilometer).toNumber()).toBe(1);
-    expect(to(measurement(10 * 1000, meter), kilometer).toNumber()).toBe(10);
-    expect(to(measurement(90, second), minute).toNumber()).toBe(1.5);
-    expect(to(measurement(90, minute), hour).toNumber()).toBe(1.5);
+    expect(convert(measurement(0, meter), kilometer).toNumber()).toBe(0);
+    expect(convert(measurement(1000, meter), kilometer).toNumber()).toBe(1);
+    expect(convert(measurement(10 * 1000, meter), kilometer).toNumber()).toBe(
+      10
+    );
+    expect(convert(measurement(90, second), minute).toNumber()).toBe(1.5);
+    expect(convert(measurement(90, minute), hour).toNumber()).toBe(1.5);
     // Complex
-    expect(to(measurement(1000, liter), cubicMeter).toNumber()).toBe(1);
+    expect(convert(measurement(1000, liter), cubicMeter).toNumber()).toBe(1);
   });
 
   test("fahrenheit", () => {
     // With normal JS numbers this would return 73.1499999999 :(
-    expect(to(measurement(0, fahrenheit), kelvin)).toEqual(
+    expect(convert(measurement(0, fahrenheit), kelvin)).toEqual(
       new Decimal(0).sub(32).mul(5).div(9).add(273.15)
     );
 
-    expect(to(measurement(100, fahrenheit), fahrenheit).toNumber()).toEqual(
-      100
-    );
+    expect(
+      convert(measurement(100, fahrenheit), fahrenheit).toNumber()
+    ).toEqual(100);
 
-    expect(to(measurement(100, fahrenheit), celsius).toNumber()).toEqual(
+    expect(convert(measurement(100, fahrenheit), celsius).toNumber()).toEqual(
       37.77777777777778
     );
   });

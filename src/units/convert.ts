@@ -54,7 +54,10 @@ function invertOp(op: Operation): Operation {
   }
 }
 
-export function convert<U1 extends AnyUnit, U2 extends AnyUnit>(
+export function convert<
+  U1 extends AnyUnit | AnyMeasurement,
+  U2 extends AnyUnit
+>(
   u1: U1,
   u2: U2,
   ops: Operations = [],
@@ -62,6 +65,12 @@ export function convert<U1 extends AnyUnit, U2 extends AnyUnit>(
 ): CalculateConversion<U1, U2> {
   if (typeof initialValue === "number") {
     initialValue = new Decimal(initialValue);
+  }
+
+  // TODO use better guard
+  if (u1.type === "Measurement") {
+    // @ts-ignore
+    return convert(u1.u, u2, [], u1.n);
   }
 
   if (u1.name === u2.name) {
@@ -129,15 +138,13 @@ export function convert<U1 extends AnyUnit, U2 extends AnyUnit>(
   throw new ConversionError(u1, u2);
 }
 
-export function to<U1 extends AnyMeasurement, U2 extends AnyUnit>(
-  u1: U1,
-  u2: U2
-): Decimal {
-  return convert(u1.u, u2, [], u1.n) as Decimal;
-}
-
-type CalculateConversion<U1 extends AnyUnit, U2 extends AnyUnit> = U1 extends U2
+type CalculateConversion<
+  U1 extends AnyUnit | AnyMeasurement,
+  U2 extends AnyUnit
+> = U1 extends U2
   ? Decimal
+  : U1 extends AnyMeasurement
+  ? Decimal // Yucc, TODO
   : U1 extends AnySimpleUnit
   ? U2 extends AnyConversionUnit
     ? CalculateConversion<U1, U2["conversion"]["u"]>
