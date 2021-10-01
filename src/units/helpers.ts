@@ -1,3 +1,4 @@
+import { Unit } from "..";
 import {
   AnyConversion,
   AnyUnit,
@@ -5,33 +6,34 @@ import {
   ConversionUnit,
   conversionUnit,
   Operation,
+  Number,
 } from "../core";
 
-export type Sum<U extends AnyUnit, N extends number> = Conversion<U, "+", N>;
+export type Sum<U extends AnyUnit, N extends Number> = Conversion<U, "+", N>;
 
-export function sum<U extends AnyUnit, N extends number>(
+export function sum<U extends AnyUnit, N extends Number>(
   u: U,
   n: N
 ): Sum<U, N> {
   return { u, op: "+", n };
 }
 
-export type Subtract<U extends AnyUnit, N extends number> = Conversion<
+export type Subtract<U extends AnyUnit, N extends Number> = Conversion<
   U,
   "-",
   N
 >;
 
-export function subtract<U extends AnyUnit, N extends number>(
+export function subtract<U extends AnyUnit, N extends Number>(
   u: U,
   n: N
 ): Subtract<U, N> {
   return { u, op: "-", n };
 }
 
-export type Equal<N extends number, U extends AnyUnit> = Conversion<U, "*", N>;
+export type Equal<N extends Number, U extends AnyUnit> = Conversion<U, "*", N>;
 
-export function equal<N extends number, U extends AnyUnit>(
+export function equal<N extends Number, U extends AnyUnit>(
   n: N,
   u: U
 ): Equal<N, U> {
@@ -206,14 +208,149 @@ export function yocto<U extends AnyUnit>(u: U): Yocto<U> {
   return basicConv(u, "Yocto", 1e-24);
 }
 
-export type Sixty<U extends AnyUnit, Name extends string> = BasicConv<
-  U,
+export type Sixty<U extends AnyUnit, Name extends string> = ConversionUnit<
   Name,
-  60
+  Equal<60, U>
 >;
 export function sixty<U extends AnyUnit, Name extends string>(
   u: U,
   name: Name
 ): Sixty<U, Name> {
-  return basicConv(u, name, 60);
+  return conversionUnit(name, equal(60, u));
+}
+
+// Multiple convs in one
+type Calc = [Operation, Number];
+
+export type Conv2<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc
+> = ConversionUnit<
+  Name,
+  Conversion<
+    ConversionUnit<"_internal1", Conversion<U, Calc2[0], Calc2[1]>>,
+    Calc1[0],
+    Calc1[1]
+  >
+>;
+
+export function conv2<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc
+>(name: Name, u: U, calc1: Calc1, calc2: Calc2): Conv2<Name, U, Calc1, Calc2> {
+  return conversionUnit(name, {
+    u: conversionUnit("_internal1", { u, op: calc2[0], n: calc2[1] }),
+    op: calc1[0],
+    n: calc1[1],
+  });
+}
+
+export type Conv3<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc,
+  Calc3 extends Calc
+> = ConversionUnit<
+  Name,
+  Conversion<
+    ConversionUnit<
+      "_internal1",
+      Conversion<
+        ConversionUnit<"_internal2", Conversion<U, Calc3[0], Calc3[1]>>,
+        Calc2[0],
+        Calc2[1]
+      >
+    >,
+    Calc1[0],
+    Calc1[1]
+  >
+>;
+
+export function conv3<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc,
+  Calc3 extends Calc
+>(
+  name: Name,
+  u: U,
+  calc1: Calc1,
+  calc2: Calc2,
+  calc3: Calc3
+): Conv3<Name, U, Calc1, Calc2, Calc3> {
+  return conversionUnit(name, {
+    u: conversionUnit("_internal1", {
+      u: conversionUnit("_internal2", { u, op: calc3[0], n: calc3[1] }),
+      op: calc2[0],
+      n: calc2[1],
+    }),
+    op: calc1[0],
+    n: calc1[1],
+  });
+}
+
+export type Conv4<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc,
+  Calc3 extends Calc,
+  Calc4 extends Calc
+> = ConversionUnit<
+  Name,
+  Conversion<
+    ConversionUnit<
+      "_internal1",
+      Conversion<
+        ConversionUnit<
+          "_internal2",
+          Conversion<
+            ConversionUnit<"_internal3", Conversion<U, Calc4[0], Calc4[1]>>,
+            Calc3[0],
+            Calc3[1]
+          >
+        >,
+        Calc2[0],
+        Calc2[1]
+      >
+    >,
+    Calc1[0],
+    Calc1[1]
+  >
+>;
+
+export function conv4<
+  Name extends string,
+  U extends AnyUnit,
+  Calc1 extends Calc,
+  Calc2 extends Calc,
+  Calc3 extends Calc,
+  Calc4 extends Calc
+>(
+  name: Name,
+  u: U,
+  calc1: Calc1,
+  calc2: Calc2,
+  calc3: Calc3,
+  calc4: Calc4
+): Conv4<Name, U, Calc1, Calc2, Calc3, Calc4> {
+  return conversionUnit(name, {
+    u: conversionUnit("_internal1", {
+      u: conversionUnit("_internal2", {
+        u: conversionUnit("_internal3", { u, op: calc4[0], n: calc4[1] }),
+        op: calc3[0],
+        n: calc3[1],
+      }),
+      op: calc2[0],
+      n: calc2[1],
+    }),
+    op: calc1[0],
+    n: calc1[1],
+  });
 }

@@ -1,3 +1,5 @@
+import Decimal from "decimal.js";
+import { subtract, Subtract } from ".";
 import {
   Unit,
   unit,
@@ -77,6 +79,12 @@ import {
 import {
   Centi,
   centi,
+  conv2,
+  Conv2,
+  conv3,
+  Conv3,
+  Conv4,
+  conv4,
   equal,
   Equal,
   kilo,
@@ -190,7 +198,6 @@ export type Liter = ConversionUnit<"Liter", Equal<0.001, CubicMeter>>;
 export const liter: Liter = conversionUnit("Liter", equal(0.001, cubicMeter));
 
 // Time
-
 export type Picosecond = Pico<Second>;
 export const picosecond: Picosecond = pico(second);
 export const picoseconds = picosecond;
@@ -317,12 +324,6 @@ export const radi = radian;
 export type Steradian = Unit<"Steradian", SolidAngle>;
 export const steradian: Steradian = unit("Steradian", solidAngle);
 
-// TODO
-// Newton : Unit Force'
-// Newton = ((Metre <//> Second) <//> Second) <**> Kilogram
-// N : Unit Force'
-// N = Newton
-
 export type MeterPerSecondSquare = ComposedUnit<
   "MeterPerSecondSquare",
   Acceleration,
@@ -430,13 +431,22 @@ export const katal: Katal = composedUnit("Katal", catalyticActivity, [
 export type Celsius = ConversionUnit<"Celsius", Sum<Kelvin, 273.15>>;
 export const celsius: Celsius = conversionUnit("Celsius", sum(kelvin, 273.15));
 
-export type Fahrenheit = ConversionUnit<
+export type Fahrenheit = Conv4<
   "Fahrenheit",
-  Sum<ConversionUnit<"_", Equal<1.8, Kelvin>>, 32>
+  Kelvin,
+  ["-", 32],
+  ["*", 5],
+  ["/", 9],
+  ["+", 273.15]
 >;
-export const farenheit = conversionUnit(
+
+export const fahrenheit: Fahrenheit = conv4(
   "Fahrenheit",
-  sum(conversionUnit("_", equal(1.8, celsius)), 32)
+  kelvin,
+  ["-", 32 as const],
+  ["*", 5 as const],
+  ["/", 9 as const],
+  ["+", 273.15 as const]
 );
 
 export type MassPerUnitVolume = ComposedUnit<

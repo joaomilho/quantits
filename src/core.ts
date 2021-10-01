@@ -1,3 +1,7 @@
+import type { Decimal } from "decimal.js";
+
+export type Number = number | Decimal;
+
 // Ops
 export type Operation = "+" | "-" | "*" | "/" | "^" | "√";
 
@@ -33,14 +37,14 @@ export type AnyDimension = AnySimpleDimension | AnyQuantity;
 export type Composition<
   D1 extends AnyDimension,
   Op extends Operation,
-  D2 extends AnyDimension | number
+  D2 extends AnyDimension | Number
 > = { d1: D1; op: Op; d2: D2 };
 
 export type AnyComposition = {
   // Does not refer to Composition cause TS complains of circularity
   d1: AnyDimension;
   op: Operation;
-  d2: AnyDimension | number;
+  d2: AnyDimension | Number;
 };
 
 // Simple units
@@ -93,13 +97,13 @@ export type AnyUnit = AnySimpleUnit | AnyComposedUnit | AnyConversionUnit;
 export type Conversion<
   U extends AnyUnit,
   Op extends Operation,
-  N extends number
+  N extends Number
 > = { u: U; op: Op; n: N };
 
 export type AnyConversion = {
   u: AnyUnit;
   op: Operation;
-  n: number;
+  n: Number;
 };
 
 export type ConversionUnit<Name extends string, C extends AnyConversion> = {
@@ -119,17 +123,17 @@ export function conversionUnit<Name extends string, C extends AnyConversion>(
 }
 
 // Measurement
-export type Measurement<N extends number, U extends AnyUnit> = {
+export type Measurement<N extends Number, U extends AnyUnit> = {
   type: "Measurement";
   n: N;
   u: AnyUnit;
 };
 
-export function measurement<N extends number, U extends AnyUnit>(
+export function measurement<N extends Number, U extends AnyUnit>(
   n: N,
   u: U
 ): Measurement<N, U> {
   return { type: "Measurement", n, u };
 }
 
-export type AnyMeasurement = Measurement<number, AnyUnit>;
+export type AnyMeasurement = Measurement<Number, AnyUnit>;
