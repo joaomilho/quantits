@@ -180,127 +180,65 @@ export function sixty<U extends AnyUnit, Name extends string>(u: U, name: Name):
 }
 
 // Multiple conversions in one
-type Calc = [Operation, number];
+/** A calculation step: [operation, number] */
+export type Calc = readonly [Operation, number];
 
-export type Conv2<
+/** Determines the name for each nesting level */
+type ConvName<Name extends string, Depth extends readonly any[]> =
+  Depth["length"] extends 0 ? Name : `_internal${Depth["length"]}`;
+
+/**
+ * Unified conversion type - recursively builds nested ConversionUnit structure
+ * @typeParam Name - The name of the resulting conversion unit
+ * @typeParam U - The base unit to convert from
+ * @typeParam Calcs - Tuple of calculation steps [operation, number]
+ * @typeParam Depth - Internal counter for naming nested units (don't specify)
+ */
+export type Conv<
   Name extends string,
   U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
-> = ConversionUnit<
-  Name,
-  Conversion<ConversionUnit<"_internal1", Conversion<U, Calc2[0], Calc2[1]>>, Calc1[0], Calc1[1]>
->;
-
-export function conv2<
-  Name extends string,
-  U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
->(name: Name, u: U, calc1: Calc1, calc2: Calc2): Conv2<Name, U, Calc1, Calc2> {
-  return conversionUnit(name, {
-    u: conversionUnit("_internal1", { u, op: calc2[0], n: calc2[1] }),
-    op: calc1[0],
-    n: calc1[1],
-  });
-}
-
-export type Conv3<
-  Name extends string,
-  U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
-  Calc3 extends Calc,
-> = ConversionUnit<
-  Name,
-  Conversion<
-    ConversionUnit<
-      "_internal1",
-      Conversion<
-        ConversionUnit<"_internal2", Conversion<U, Calc3[0], Calc3[1]>>,
-        Calc2[0],
-        Calc2[1]
+  Calcs extends readonly Calc[],
+  Depth extends readonly any[] = [],
+> = Calcs extends readonly [infer First extends Calc, ...infer Rest extends readonly Calc[]]
+  ? Rest extends readonly []
+    ? ConversionUnit<ConvName<Name, Depth>, Conversion<U, First[0], First[1]>>
+    : ConversionUnit<
+        ConvName<Name, Depth>,
+        Conversion<Conv<Name, U, Rest, [...Depth, any]>, First[0], First[1]>
       >
-    >,
-    Calc1[0],
-    Calc1[1]
-  >
->;
+  : never;
 
-export function conv3<
+/**
+ * Create a conversion unit with multiple chained operations
+ * @param name - The name of the resulting conversion unit
+ * @param u - The base unit to convert from
+ * @param calcs - Calculation steps as [operation, number] tuples
+ * @returns A nested ConversionUnit structure
+ *
+ * @example
+ * // Fahrenheit to Kelvin: (F - 32) * 5 / 9 + 273.15
+ * const fahrenheit = conv("Fahrenheit", kelvin,
+ *   ["-", 32],
+ *   ["*", 5],
+ *   ["/", 9],
+ *   ["+", 273.15]
+ * );
+ */
+export function conv<
   Name extends string,
   U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
-  Calc3 extends Calc,
->(name: Name, u: U, calc1: Calc1, calc2: Calc2, calc3: Calc3): Conv3<Name, U, Calc1, Calc2, Calc3> {
-  return conversionUnit(name, {
-    u: conversionUnit("_internal1", {
-      u: conversionUnit("_internal2", { u, op: calc3[0], n: calc3[1] }),
-      op: calc2[0],
-      n: calc2[1],
-    }),
-    op: calc1[0],
-    n: calc1[1],
-  });
-}
+  Calcs extends readonly Calc[],
+>(name: Name, u: U, ...calcs: Calcs): Conv<Name, U, Calcs> {
+  // Build nested structure from inside out (reverse order)
+  const reversed = [...calcs].reverse();
 
-export type Conv4<
-  Name extends string,
-  U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
-  Calc3 extends Calc,
-  Calc4 extends Calc,
-> = ConversionUnit<
-  Name,
-  Conversion<
-    ConversionUnit<
-      "_internal1",
-      Conversion<
-        ConversionUnit<
-          "_internal2",
-          Conversion<
-            ConversionUnit<"_internal3", Conversion<U, Calc4[0], Calc4[1]>>,
-            Calc3[0],
-            Calc3[1]
-          >
-        >,
-        Calc2[0],
-        Calc2[1]
-      >
-    >,
-    Calc1[0],
-    Calc1[1]
-  >
->;
+  let result: AnyUnit = u;
+  for (let i = 0; i < reversed.length; i++) {
+    const calc = reversed[i]!;
+    const internalName =
+      i === reversed.length - 1 ? name : `_internal${reversed.length - 1 - i}`;
+    result = conversionUnit(internalName, { u: result, op: calc[0], n: calc[1] });
+  }
 
-export function conv4<
-  Name extends string,
-  U extends AnyUnit,
-  Calc1 extends Calc,
-  Calc2 extends Calc,
-  Calc3 extends Calc,
-  Calc4 extends Calc,
->(
-  name: Name,
-  u: U,
-  calc1: Calc1,
-  calc2: Calc2,
-  calc3: Calc3,
-  calc4: Calc4
-): Conv4<Name, U, Calc1, Calc2, Calc3, Calc4> {
-  return conversionUnit(name, {
-    u: conversionUnit("_internal1", {
-      u: conversionUnit("_internal2", {
-        u: conversionUnit("_internal3", { u, op: calc4[0], n: calc4[1] }),
-        op: calc3[0],
-        n: calc3[1],
-      }),
-      op: calc2[0],
-      n: calc2[1],
-    }),
-    op: calc1[0],
-    n: calc1[1],
-  });
+  return result as Conv<Name, U, Calcs>;
 }

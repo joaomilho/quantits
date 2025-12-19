@@ -160,8 +160,9 @@ import {
 } from "../dimensions/physics.js";
 
 import type {
+  Calc,
   Centi,
-  Conv4,
+  Conv,
   Equal,
   Kilo,
   Mili,
@@ -171,7 +172,7 @@ import type {
 } from "./helpers.js";
 import {
   centi,
-  conv4,
+  conv,
   equal,
   kilo,
   mili,
@@ -512,22 +513,22 @@ export const katal: Katal = composedUnit("Katal", catalyticActivity, [
 export type Celsius = ConversionUnit<"Celsius", Sum<Kelvin, 273.15>>;
 export const celsius: Celsius = conversionUnit("Celsius", sum(kelvin, 273.15));
 
-export type Fahrenheit = Conv4<
-  "Fahrenheit",
-  Kelvin,
-  ["-", 32],
-  ["*", 5],
-  ["/", 9],
-  ["+", 273.15]
->;
+type FahrenheitCalcs = [
+  Calc & ["-", 32],
+  Calc & ["*", 5],
+  Calc & ["/", 9],
+  Calc & ["+", 273.15],
+];
 
-export const fahrenheit: Fahrenheit = conv4(
+export type Fahrenheit = Conv<"Fahrenheit", Kelvin, FahrenheitCalcs>;
+
+export const fahrenheit: Fahrenheit = conv(
   "Fahrenheit",
   kelvin,
-  ["-", 32 as const],
-  ["*", 5 as const],
-  ["/", 9 as const],
-  ["+", 273.15 as const]
+  ["-", 32] as const,
+  ["*", 5] as const,
+  ["/", 9] as const,
+  ["+", 273.15] as const
 );
 
 export type MassPerUnitVolume = ComposedUnit<
