@@ -17,10 +17,10 @@ import {
  * Multiply two dimensions
  * @deprecated Use mul from dimension-algebra.js
  */
-export type Multiply<D1 extends Dimension, D2 extends Dimension> = 
+export type Multiply<D1 extends Dimension<Exponents>, D2 extends Dimension<Exponents>> = 
   Dimension<MulExponents<D1["exponents"], D2["exponents"]>>;
 
-export function multiply<D1 extends Dimension, D2 extends Dimension>(
+export function multiply<D1 extends Dimension<Exponents>, D2 extends Dimension<Exponents>>(
   d1: D1,
   d2: D2
 ): Multiply<D1, D2> {
@@ -31,10 +31,10 @@ export function multiply<D1 extends Dimension, D2 extends Dimension>(
  * Divide two dimensions
  * @deprecated Use div from dimension-algebra.js
  */
-export type Divide<D1 extends Dimension, D2 extends Dimension> = 
+export type Divide<D1 extends Dimension<Exponents>, D2 extends Dimension<Exponents>> = 
   Dimension<DivExponents<D1["exponents"], D2["exponents"]>>;
 
-export function divide<D1 extends Dimension, D2 extends Dimension>(
+export function divide<D1 extends Dimension<Exponents>, D2 extends Dimension<Exponents>>(
   d1: D1,
   d2: D2
 ): Divide<D1, D2> {
@@ -45,10 +45,10 @@ export function divide<D1 extends Dimension, D2 extends Dimension>(
  * Raise a dimension to a power
  * @deprecated Use power from dimension-algebra.js
  */
-export type Pow<D1 extends Dimension, Exp extends number> = 
+export type Pow<D1 extends Dimension<Exponents>, Exp extends number> = 
   Dimension<PowExponents<D1["exponents"], Exp>>;
 
-export function pow<D1 extends Dimension, Exp extends number>(
+export function pow<D1 extends Dimension<Exponents>, Exp extends number>(
   d1: D1, 
   exp: Exp
 ): Pow<D1, Exp> {

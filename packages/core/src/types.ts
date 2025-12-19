@@ -3,11 +3,11 @@
  * @packageDocumentation
  */
 
-import type { Exponents, Dimension } from "./dimension-algebra.js";
+import type { Exponents, Dimension as DimensionBase } from "./dimension-algebra.js";
 import { baseDimension as createBaseDimension, dimensionsEqual } from "./dimension-algebra.js";
 
-// Re-export dimension algebra types
-export type { Exponents, Dimension } from "./dimension-algebra.js";
+// Re-export dimension algebra types (but Dimension is re-defined below for backwards compat)
+export type { Exponents } from "./dimension-algebra.js";
 export {
   baseDimension,
   dimensionless,
@@ -25,17 +25,27 @@ export {
 export type Operation = "+" | "-" | "*" | "/" | "^" | "√";
 
 // =============================================================================
-// DIMENSIONS - Normalized exponent maps
+// DIMENSIONS - Normalized exponent maps with backwards compatibility
 // =============================================================================
 
+/**
+ * Dimension type with backwards compatibility.
+ * - Dimension<"Length"> → base dimension with exponent 1 (legacy)
+ * - Dimension<{Length: 2}> → dimension with explicit exponents (new)
+ */
+export type Dimension<T extends string | Exponents = Exponents> = 
+  T extends string 
+    ? DimensionBase<{ readonly [K in T]: 1 }>
+    : DimensionBase<T & Exponents>;
+
 /** Any dimension */
-export type AnyDimension = Dimension<Exponents>;
+export type AnyDimension = DimensionBase<Exponents>;
 
 /** Creates a new base dimension with exponent 1 */
 export function dimension<Name extends string>(
   name: Name
-): Dimension<{ readonly [K in Name]: 1 }> {
-  return createBaseDimension(name);
+): Dimension<Name> {
+  return createBaseDimension(name) as Dimension<Name>;
 }
 
 // =============================================================================
@@ -44,9 +54,11 @@ export function dimension<Name extends string>(
 
 /**
  * A composed dimension (quantity) - now just a Dimension with exponents
+ * The second type parameter D can be either raw Exponents or a Dimension type
  * @deprecated Use Dimension directly with mul/div/power operations
  */
-export type Quantity<_Name extends string, E extends Exponents> = Dimension<E>;
+export type Quantity<_Name extends string, D extends Exponents | Dimension<Exponents>> = 
+  D extends Dimension<infer E> ? Dimension<E> : Dimension<D & Exponents>;
 
 /** @deprecated Use mul/div/power from dimension-algebra instead */
 export type AnyQuantity = Dimension<Exponents>;
@@ -60,6 +72,18 @@ export type Composition<
 
 /** @deprecated */
 export type AnyComposition = Exponents;
+
+/**
+ * Legacy quantity function - wraps dimension operations
+ * @deprecated Use div/mul/power directly, they already return Dimension
+ */
+export function quantity<Name extends string, D extends Dimension<Exponents>>(
+  _name: Name,
+  dimension: D
+): D {
+  // The name is ignored now - dimensions are identified by their exponents
+  return dimension;
+}
 
 // =============================================================================
 // UNITS

@@ -3,11 +3,27 @@
  * @packageDocumentation
  */
 
-// Core types and functions
+// Core types and functions (includes Dimension with backwards-compat)
 export * from "./types.js";
 
-// Dimension algebra (normalized dimensions with canonical exponent form)
-export * from "./dimension-algebra.js";
+// Dimension algebra - explicit exports (Dimension is already in types.js)
+export {
+  baseDimension,
+  dimensionless,
+  isDimensionless,
+  mul,
+  div,
+  power,
+  invert,
+  dimensionsEqual,
+  dimensionToString,
+  composeDimension,
+  type Exponents,
+  type MulExponents,
+  type DivExponents,
+  type PowExponents,
+  type InvertExponents,
+} from "./dimension-algebra.js";
 
 // Dimension helpers (legacy multiply, divide, pow - consider using dimension-algebra instead)
 export * from "./dimension-helpers.js";
@@ -17,4 +33,3 @@ export * from "./helpers.js";
 
 // Conversion
 export * from "./convert.js";
-

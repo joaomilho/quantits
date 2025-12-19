@@ -80,13 +80,13 @@ type CalculateConversion<U1 extends AnyUnit | AnyMeasurement, U2 extends AnyUnit
  * Get the exponent for composed unit conversion based on dimension
  */
 function getComposedExponent(dim: AnyDimension): number {
-  // Check if this is a power dimension (single base with exponent > 1)
+  // Check if this is a power dimension (single base with exponent != 1)
   const exponents = dim.exponents;
   const keys = Object.keys(exponents);
   
   if (keys.length === 1) {
     const exp = exponents[keys[0]!];
-    if (exp !== undefined && Math.abs(exp) > 1) {
+    if (exp !== undefined && exp !== 1) {
       return exp;
     }
   }
@@ -103,7 +103,8 @@ function getComposedOperation(dim: AnyDimension): "*" | "/" | "^" {
   
   if (keys.length === 1) {
     const exp = exponents[keys[0]!];
-    if (exp !== undefined && Math.abs(exp) > 1) {
+    // Any non-1 exponent (including -1) is a power operation
+    if (exp !== undefined && exp !== 1) {
       return "^";
     }
   }

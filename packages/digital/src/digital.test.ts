@@ -25,13 +25,12 @@ import {
 describe("digital dimensions", () => {
   test("information dimension exists", () => {
     expect(information.type).toBe("Dimension");
-    expect(information.name).toBe("Information");
+    expect(information.exponents).toEqual({ Information: 1 });
   });
 
   test("bandwidth dimension is Information / Time", () => {
-    expect(bandwidth.type).toBe("Quantity");
-    expect(bandwidth.name).toBe("Bandwidth");
-    expect(bandwidth.composition.op).toBe("/");
+    expect(bandwidth.type).toBe("Dimension");
+    expect(bandwidth.exponents).toEqual({ Information: 1, Time: -1 });
   });
 });
 

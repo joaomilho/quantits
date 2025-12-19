@@ -250,16 +250,16 @@ describe("convert", () => {
 
   test("frequency (negative power operations)", () => {
     // Frequency is defined as Time^-1
-    // Create a millihertz for testing (1/millisecond)
-    const millihertz = composedUnit("Millihertz", frequency, [milisecond]);
+    // Create a "per-millisecond" frequency unit for testing
+    // Note: millisecond^-1 = (0.001 s)^-1 = 1000/s = 1000 Hz
+    const perMillisecond = composedUnit("PerMillisecond", frequency, [milisecond]);
 
-    // 1 hertz = 0.001 millihertz (since hertz uses seconds, millihertz uses milliseconds)
-    // Actually: 1 Hz = 1/s, 1 mHz = 1/ms = 1000/s = 1000 Hz
-    // So 1 Hz = 0.001 millihertz
-    expect(convert(hertz, millihertz).numberValue()).toBeCloseTo(0.001);
+    // 1 Hz = 1/s, 1 per-millisecond = 1000/s
+    // So 1 Hz = 0.001 per-millisecond
+    expect(convert(hertz, perMillisecond).numberValue()).toBeCloseTo(0.001);
 
-    // 1 millihertz = 1000 hertz
-    expect(convert(millihertz, hertz).numberValue()).toBeCloseTo(1000);
+    // 1 per-millisecond = 1000 Hz
+    expect(convert(perMillisecond, hertz).numberValue()).toBeCloseTo(1000);
   });
 
   // Tests for derived quantity units

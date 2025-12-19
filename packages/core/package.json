@@ -1,6 +1,6 @@
 {
   "name": "@quantits/core",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Core types and functions for creating type-safe units and quantities",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -24,6 +24,18 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quantits/quantits.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/quantits/quantits#readme",
+  "bugs": {
+    "url": "https://github.com/quantits/quantits/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "bigdecimal.js": "^1.3.1"
@@ -37,4 +49,3 @@
     "typescript"
   ]
 }
-

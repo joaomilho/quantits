@@ -3,9 +3,6 @@
  * @packageDocumentation
  */
 
-// Re-export core for convenience
-export * from "@quantits/core";
-
 // Dimensions
 export * from "./dimensions.js";
 
@@ -18,4 +15,3 @@ export * from "./imperial.js";
 // Universe constants as a namespace
 import * as universe from "./universe.js";
 export { universe };
-

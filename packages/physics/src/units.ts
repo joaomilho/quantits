@@ -1,5 +1,5 @@
-import type { ComposedUnit, ConversionUnit, Unit, Calc, Centi, Conv, Equal, Kilo, Mili, Pico, Sixty, Sum } from "@quantits/core";
-import { composedUnit, conversionUnit, unit, centi, conv, equal, kilo, mili, pico, sixty, sum } from "@quantits/core";
+import type { ComposedUnit, ConversionUnit, Unit, Calc, Centi, Conv, Equal, Kilo, Micro, Mili, Nano, Pico, Sixty, Sum } from "@quantits/core";
+import { composedUnit, conversionUnit, unit, centi, conv, equal, kilo, micro, mili, nano, pico, sixty, sum } from "@quantits/core";
 
 import type {
   AbsorbedDose,
@@ -261,10 +261,23 @@ export const liter: Liter = conversionUnit("Liter", equal(0.001, cubicMeter));
 export type Picosecond = Pico<Second>;
 export const picosecond: Picosecond = pico(second);
 export const picoseconds = picosecond;
+export const ps = picosecond;
+
+export type Nanosecond = Nano<Second>;
+export const nanosecond: Nanosecond = nano(second);
+export const nanoseconds = nanosecond;
+export const ns = nanosecond;
+
+export type Microsecond = Micro<Second>;
+export const microsecond: Microsecond = micro(second);
+export const microseconds = microsecond;
+export const μs = microsecond;
+export const us = microsecond;
 
 export type Milisecond = Mili<Second>;
 export const milisecond: Milisecond = mili(second);
 export const miliseconds = milisecond;
+export const ms = milisecond;
 
 export type Minute = Sixty<Second, "Minute">;
 export const minute: Minute = sixty(seconds, "Minute");

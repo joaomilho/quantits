@@ -1,7 +1,7 @@
 {
-  "name": "@quantits/physics",
+  "name": "@quantits/time",
   "version": "0.0.1",
-  "description": "Physics units and dimensions for QuantiTS",
+  "description": "Time units and conversions for QuantiTS",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -27,7 +27,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/quantits/quantits.git",
-    "directory": "packages/physics"
+    "directory": "packages/time"
   },
   "homepage": "https://github.com/quantits/quantits#readme",
   "bugs": {
@@ -38,15 +38,18 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@quantits/core": "^0.0.1"
+    "@quantits/physics": "^0.0.1",
+    "luxon": "^3.5.0"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.4.2"
   },
   "keywords": [
     "units",
-    "physics",
-    "SI",
-    "metric",
-    "imperial",
-    "measurement",
+    "time",
+    "duration",
+    "luxon",
+    "iso8601",
     "type-safe",
     "typescript"
   ]

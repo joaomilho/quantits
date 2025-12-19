@@ -1,6 +1,6 @@
 {
   "name": "@quantits/digital",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Digital/information units and dimensions for QuantiTS",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -24,10 +24,22 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quantits/quantits.git",
+    "directory": "packages/digital"
+  },
+  "homepage": "https://github.com/quantits/quantits#readme",
+  "bugs": {
+    "url": "https://github.com/quantits/quantits/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
-    "@quantits/core": "^1.0.0",
-    "@quantits/physics": "^1.0.0"
+    "@quantits/core": "^0.0.1",
+    "@quantits/physics": "^0.0.1"
   },
   "keywords": [
     "units",
@@ -40,4 +52,3 @@
     "typescript"
   ]
 }
-

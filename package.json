@@ -1,8 +1,16 @@
 {
   "name": "quantits",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Type-safe quantities and unit conversions for TypeScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quantits/quantits.git"
+  },
+  "homepage": "https://github.com/quantits/quantits#readme",
+  "bugs": {
+    "url": "https://github.com/quantits/quantits/issues"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -12,7 +20,8 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "format": "biome format --write .",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "publish:all": "npm run build && npm publish --workspace=@quantits/core && npm publish --workspace=@quantits/physics && npm publish --workspace=@quantits/digital && npm publish --workspace=@quantits/time"
   },
   "license": "MIT",
   "engines": {
