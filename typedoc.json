@@ -1,0 +1,41 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": [
+    "packages/core",
+    "packages/physics",
+    "packages/digital",
+    "packages/time"
+  ],
+  "entryPointStrategy": "packages",
+  "out": "docs",
+  "name": "QuantiTS",
+  "readme": "README.md",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "excludeExternals": true,
+  "categorizeByGroup": true,
+  "categoryOrder": [
+    "Dimensions",
+    "Units",
+    "Measurements",
+    "Conversions",
+    "Helpers",
+    "*"
+  ],
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true
+  },
+  "sort": ["alphabetical"],
+  "cleanOutputDir": true,
+  "githubPages": true,
+  "hideGenerator": false,
+  "searchInComments": true,
+  "validation": {
+    "notExported": true,
+    "invalidLink": true,
+    "notDocumented": false
+  }
+}
