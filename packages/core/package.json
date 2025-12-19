@@ -1,0 +1,40 @@
+{
+  "name": "@quantits/core",
+  "version": "1.0.0",
+  "description": "Core types and functions for creating type-safe units and quantities",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "bigdecimal.js": "^1.3.1"
+  },
+  "keywords": [
+    "units",
+    "quantities",
+    "dimensions",
+    "measurement",
+    "type-safe",
+    "typescript"
+  ]
+}
+
