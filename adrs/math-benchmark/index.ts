@@ -1,9 +1,9 @@
-import Benchmark from "benchmark";
 import assert from "assert";
+import Benchmark from "benchmark";
 
-import { Decimal } from "decimal.js";
 import Big from "big.js"; // needs types
 import BigNumber from "bignumber.js";
+import { Decimal } from "decimal.js";
 
 const suite = new Benchmark.Suite();
 
@@ -14,12 +14,7 @@ function decimaljs() {
 
   const problem = new Decimal("22222222222222222222").div(2).toFixed(0);
 
-  return [
-    dec.equals(dec2),
-    dec.plus(diff).equals(dec2),
-    problem,
-    new Decimal(2e308).toNumber(),
-  ];
+  return [dec.equals(dec2), dec.plus(diff).equals(dec2), problem, new Decimal(2e308).toNumber()];
 }
 
 function bigjs() {
@@ -40,15 +35,10 @@ function bignumberjs() {
 
   const problem = new BigNumber("22222222222222222222").div(2).toFixed(0);
 
-  return [
-    dec.eq(dec2),
-    dec.plus(diff).eq(dec2),
-    problem,
-    new BigNumber(2e308).toNumber(),
-  ];
+  return [dec.eq(dec2), dec.plus(diff).eq(dec2), problem, new BigNumber(2e308).toNumber()];
 }
 
-const expected = [false, true, "11111111111111111111", Infinity];
+const expected = [false, true, "11111111111111111111", Number.POSITIVE_INFINITY];
 
 assert.deepStrictEqual(decimaljs(), expected);
 // assert.deepStrictEqual(bigjs(), expected);
@@ -59,7 +49,7 @@ suite
   //   .add("big.js", bigjs)
   .add("bignumber.js", bignumberjs)
 
-  .on("cycle", function (event) {
+  .on("cycle", (event) => {
     console.log(String(event.target));
   })
   .on("complete", function () {

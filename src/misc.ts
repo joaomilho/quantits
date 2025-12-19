@@ -1,15 +1,18 @@
-import { Dimension, dimension, Unit, unit } from "./core";
+import type { Dimension, Unit } from "./core.js";
+import { dimension, unit } from "./core.js";
 
-// Pain
+/** Pain dimension - for measuring discomfort */
 export type Pain = Dimension<"Pain">;
 export const pain: Pain = dimension("Pain");
 
+/** Dol unit - unit of pain intensity */
 export type Dol = Unit<"Dol", Pain>;
 export const dol: Dol = unit("Dol", pain);
 
-// Pungency
+/** Pungency dimension - for measuring spiciness */
 export type Pungency = Dimension<"Pungency">;
 export const pungency: Pungency = dimension("Pungency");
 
+/** Scoville unit - unit of spicy heat */
 export type Scoville = Unit<"Scoville", Pungency>;
 export const scoville: Scoville = unit("Scoville", pungency);

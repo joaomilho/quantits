@@ -1,71 +1,44 @@
-import { Unit } from "..";
-import {
-  AnyConversion,
-  AnyUnit,
-  Conversion,
-  ConversionUnit,
-  conversionUnit,
-  Operation,
-  Number,
-} from "../core";
+import type { AnyConversion, AnyUnit, Conversion, ConversionUnit, Operation } from "../core.js";
+import { conversionUnit } from "../core.js";
 
-export type Sum<U extends AnyUnit, N extends Number> = Conversion<U, "+", N>;
+/** Sum conversion: adds N to the unit value */
+export type Sum<U extends AnyUnit, N extends number> = Conversion<U, "+", N>;
 
-export function sum<U extends AnyUnit, N extends Number>(
-  u: U,
-  n: N
-): Sum<U, N> {
+export function sum<U extends AnyUnit, N extends number>(u: U, n: N): Sum<U, N> {
   return { u, op: "+", n };
 }
 
-export type Subtract<U extends AnyUnit, N extends Number> = Conversion<
-  U,
-  "-",
-  N
->;
+/** Subtract conversion: subtracts N from the unit value */
+export type Subtract<U extends AnyUnit, N extends number> = Conversion<U, "-", N>;
 
-export function subtract<U extends AnyUnit, N extends Number>(
-  u: U,
-  n: N
-): Subtract<U, N> {
+export function subtract<U extends AnyUnit, N extends number>(u: U, n: N): Subtract<U, N> {
   return { u, op: "-", n };
 }
 
-export type Equal<N extends Number, U extends AnyUnit> = Conversion<U, "*", N>;
+/** Equal conversion: multiplies unit value by N */
+export type Equal<N extends number, U extends AnyUnit> = Conversion<U, "*", N>;
 
-export function equal<N extends Number, U extends AnyUnit>(
-  n: N,
-  u: U
-): Equal<N, U> {
+export function equal<N extends number, U extends AnyUnit>(n: N, u: U): Equal<N, U> {
   return { u, op: "*", n };
 }
 
-// export type Equal<N extends number, U extends AnyUnit> = Multiply<U, N>;
-// export function equal<U extends AnyUnit, N extends number>(
-//   n: N,
-//   u: U
-// ): Equal<N, U> {
-//   return { u, op: "*", n };
-// }
+type BasicConv<U extends AnyUnit, Prefix extends string, N extends number> = ConversionUnit<
+  `${Prefix}${Lowercase<U["name"]>}`,
+  Equal<N, U>
+>;
 
-type BasicConv<
-  U extends AnyUnit,
-  Prefix extends string,
-  N extends number
-> = ConversionUnit<`${Prefix}${Lowercase<U["name"]>}`, Equal<N, U>>;
-
-export function basicConv<
-  U extends AnyUnit,
-  Prefix extends string,
-  N extends number
->(u: U, prefix: Prefix, n: N): BasicConv<U, Prefix, N> {
+export function basicConv<U extends AnyUnit, Prefix extends string, N extends number>(
+  u: U,
+  prefix: Prefix,
+  n: N
+): BasicConv<U, Prefix, N> {
   return conversionUnit(
     `${prefix}${u.name.toLowerCase()}` as `${Prefix}${Lowercase<U["name"]>}`,
     equal(n, u)
   );
 }
 
-// * 1024s
+// Binary prefixes (1024-based)
 
 export type Kibi<U extends AnyUnit> = BasicConv<U, "Kibi", 1024>;
 export function kibi<U extends AnyUnit>(u: U): Kibi<U> {
@@ -97,25 +70,17 @@ export function exbi<U extends AnyUnit>(u: U): Exbi<U> {
   return basicConv(u, "Exbi", 1152921504606847000);
 }
 
-export type Zebi<U extends AnyUnit> = BasicConv<
-  U,
-  "Zebi",
-  1.1805916207174113e21
->;
+export type Zebi<U extends AnyUnit> = BasicConv<U, "Zebi", 1.1805916207174113e21>;
 export function zebi<U extends AnyUnit>(u: U): Zebi<U> {
   return basicConv(u, "Zebi", 1.1805916207174113e21);
 }
 
-export type Yobi<U extends AnyUnit> = BasicConv<
-  U,
-  "Yobi",
-  1.2089258196146292e24
->;
+export type Yobi<U extends AnyUnit> = BasicConv<U, "Yobi", 1.2089258196146292e24>;
 export function yobi<U extends AnyUnit>(u: U): Yobi<U> {
   return basicConv(u, "Yobi", 1.2089258196146292e24);
 }
 
-// * 1000s
+// Metric prefixes (1000-based)
 // https://en.wikipedia.org/wiki/Metric_prefix
 
 export type Kilo<U extends AnyUnit> = BasicConv<U, "Kilo", 1e3>;
@@ -208,39 +173,30 @@ export function yocto<U extends AnyUnit>(u: U): Yocto<U> {
   return basicConv(u, "Yocto", 1e-24);
 }
 
-export type Sixty<U extends AnyUnit, Name extends string> = ConversionUnit<
-  Name,
-  Equal<60, U>
->;
-export function sixty<U extends AnyUnit, Name extends string>(
-  u: U,
-  name: Name
-): Sixty<U, Name> {
+/** Sixty: multiplies by 60 (for minutes, hours, etc.) */
+export type Sixty<U extends AnyUnit, Name extends string> = ConversionUnit<Name, Equal<60, U>>;
+export function sixty<U extends AnyUnit, Name extends string>(u: U, name: Name): Sixty<U, Name> {
   return conversionUnit(name, equal(60, u));
 }
 
-// Multiple convs in one
-type Calc = [Operation, Number];
+// Multiple conversions in one
+type Calc = [Operation, number];
 
 export type Conv2<
   Name extends string,
   U extends AnyUnit,
   Calc1 extends Calc,
-  Calc2 extends Calc
+  Calc2 extends Calc,
 > = ConversionUnit<
   Name,
-  Conversion<
-    ConversionUnit<"_internal1", Conversion<U, Calc2[0], Calc2[1]>>,
-    Calc1[0],
-    Calc1[1]
-  >
+  Conversion<ConversionUnit<"_internal1", Conversion<U, Calc2[0], Calc2[1]>>, Calc1[0], Calc1[1]>
 >;
 
 export function conv2<
   Name extends string,
   U extends AnyUnit,
   Calc1 extends Calc,
-  Calc2 extends Calc
+  Calc2 extends Calc,
 >(name: Name, u: U, calc1: Calc1, calc2: Calc2): Conv2<Name, U, Calc1, Calc2> {
   return conversionUnit(name, {
     u: conversionUnit("_internal1", { u, op: calc2[0], n: calc2[1] }),
@@ -254,7 +210,7 @@ export type Conv3<
   U extends AnyUnit,
   Calc1 extends Calc,
   Calc2 extends Calc,
-  Calc3 extends Calc
+  Calc3 extends Calc,
 > = ConversionUnit<
   Name,
   Conversion<
@@ -276,14 +232,8 @@ export function conv3<
   U extends AnyUnit,
   Calc1 extends Calc,
   Calc2 extends Calc,
-  Calc3 extends Calc
->(
-  name: Name,
-  u: U,
-  calc1: Calc1,
-  calc2: Calc2,
-  calc3: Calc3
-): Conv3<Name, U, Calc1, Calc2, Calc3> {
+  Calc3 extends Calc,
+>(name: Name, u: U, calc1: Calc1, calc2: Calc2, calc3: Calc3): Conv3<Name, U, Calc1, Calc2, Calc3> {
   return conversionUnit(name, {
     u: conversionUnit("_internal1", {
       u: conversionUnit("_internal2", { u, op: calc3[0], n: calc3[1] }),
@@ -301,7 +251,7 @@ export type Conv4<
   Calc1 extends Calc,
   Calc2 extends Calc,
   Calc3 extends Calc,
-  Calc4 extends Calc
+  Calc4 extends Calc,
 > = ConversionUnit<
   Name,
   Conversion<
@@ -331,7 +281,7 @@ export function conv4<
   Calc1 extends Calc,
   Calc2 extends Calc,
   Calc3 extends Calc,
-  Calc4 extends Calc
+  Calc4 extends Calc,
 >(
   name: Name,
   u: U,

@@ -1,10 +1,11 @@
-export * from "./physics";
-export * from "./digital";
+export * from "./physics.js";
+export * from "./digital.js";
 
-import { DigitalUnit } from "./digital";
-import { PhysicsUnit } from "./physics";
+import type { DigitalUnit } from "./digital.js";
+import type { PhysicsUnit } from "./physics.js";
 
 export type SimpleUnit = PhysicsUnit | DigitalUnit;
 
-export * from "./convert";
-export * from "./helpers";
+export * from "./convert.js";
+export * from "./helpers.js";
+export * from "./imperial.js";

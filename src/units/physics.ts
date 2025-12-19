@@ -1,103 +1,184 @@
-import Decimal from "decimal.js";
-import { subtract, Subtract } from ".";
-import {
-  Unit,
-  unit,
-  composedUnit,
-  ComposedUnit,
-  conversionUnit,
-  ConversionUnit,
-} from "../core";
+import type { ComposedUnit, ConversionUnit, Unit } from "../core.js";
+import { composedUnit, conversionUnit, unit } from "../core.js";
 
-import {
-  Length,
-  length,
-  Mass,
-  mass,
-  ElectricCurrent,
-  electricCurrent,
-  time,
-  Time,
-  temperature,
-  Temperature,
-  AmountOfSubstance,
-  amountOfSubstance,
-  LuminousIntensity,
-  luminousIntensity,
-  Area,
-  area,
-  Speed,
-  speed,
-  Volume,
-  volume,
-  Hypervolume,
-  hypervolume,
-  frequency,
-  Frequency,
-  PlaneAngle,
-  planeAngle,
-  SolidAngle,
-  solidAngle,
-  ElectricCharge,
-  electricCharge,
-  LuminousFlux,
-  luminousFlux,
-  CatalyticActivity,
-  catalyticActivity,
-  Acceleration,
-  acceleration,
-  Force,
-  force,
-  Pressure,
-  pressure,
-  Energy,
-  energy,
-  Power,
-  power,
-  ElectricPotentialDifference,
-  electricPotentialDifference,
-  Capacitance,
-  capacitance,
-  ElectricResistance,
-  electricResistance,
-  ElectricConductance,
-  electricConductance,
-  MagneticFlux,
-  magneticFlux,
-  MagneticFluxDensity,
-  magneticFluxDensity,
-  Inductance,
-  inductance,
-  Illuminance,
-  illuminance,
+import type {
   AbsorbedDose,
-  absorbedDose,
+  AbsorbedDoseRate,
+  Acceleration,
+  Action,
+  AmountConcentration,
+  AmountOfSubstance,
+  AngularAcceleration,
+  AngularMomentum,
+  AngularVelocity,
+  Area,
+  Capacitance,
+  CatalyticActivity,
+  CatalyticActivityConcentration,
+  CurrentDensity,
   Density,
-  density,
-} from "../dimensions/physics";
+  DynamicViscosity,
+  ElectricCharge,
+  ElectricChargeDensity,
+  ElectricConductance,
+  ElectricCurrent,
+  ElectricalConductivity,
+  ElectricalResistivity,
+  ElectricFieldStrength,
+  ElectricPotentialDifference,
+  ElectricResistance,
+  Energy,
+  EnergyDensity,
+  Exposure,
+  Force,
+  Frequency,
+  HeatCapacity,
+  HeatFluxDensity,
+  HeatTransferCoefficient,
+  Hypervolume,
+  Illuminance,
+  Impulse,
+  Inductance,
+  Jerk,
+  KinematicViscosity,
+  Length,
+  Luminance,
+  LuminousFlux,
+  LuminousIntensity,
+  MagneticFieldStrength,
+  MagneticFlux,
+  MagneticFluxDensity,
+  Mass,
+  MassConcentration,
+  MassFlowRate,
+  MolarEnergy,
+  MolarMass,
+  MolarVolume,
+  Momentum,
+  MomentOfForce,
+  Permeability,
+  Permittivity,
+  PlaneAngle,
+  Power,
+  Pressure,
+  Radiance,
+  RadiantIntensity,
+  SolidAngle,
+  SpecificHeatCapacity,
+  SpecificVolume,
+  SpectralFluxDensity,
+  SpectralPower,
+  Speed,
+  SurfaceChargeDensity,
+  SurfaceDensity,
+  SurfaceTension,
+  Temperature,
+  ThermalConductivity,
+  Time,
+  Volume,
+  VolumetricFlowRate,
+  Wavenumber,
+} from "../dimensions/physics.js";
 
 import {
+  absorbedDose,
+  absorbedDoseRate,
+  acceleration,
+  action,
+  amountConcentration,
+  amountOfSubstance,
+  angularAcceleration,
+  angularMomentum,
+  angularVelocity,
+  area,
+  capacitance,
+  catalyticActivity,
+  catalyticActivityConcentration,
+  currentDensity,
+  density,
+  dynamicViscosity,
+  electricCharge,
+  electricChargeDensity,
+  electricConductance,
+  electricCurrent,
+  electricalConductivity,
+  electricalResistivity,
+  electricFieldStrength,
+  electricPotentialDifference,
+  electricResistance,
+  energy,
+  energyDensity,
+  exposure,
+  force,
+  frequency,
+  heatCapacity,
+  heatFluxDensity,
+  heatTransferCoefficient,
+  hypervolume,
+  illuminance,
+  impulse,
+  inductance,
+  jerk,
+  kinematicViscosity,
+  length,
+  luminance,
+  luminousFlux,
+  luminousIntensity,
+  magneticFieldStrength,
+  magneticFlux,
+  magneticFluxDensity,
+  mass,
+  massConcentration,
+  massFlowRate,
+  molarEnergy,
+  molarMass,
+  molarVolume,
+  momentum,
+  momentOfForce,
+  permeability,
+  permittivity,
+  planeAngle,
+  power,
+  pressure,
+  radiance,
+  radiantIntensity,
+  solidAngle,
+  specificHeatCapacity,
+  specificVolume,
+  spectralFluxDensity,
+  spectralPower,
+  speed,
+  surfaceChargeDensity,
+  surfaceDensity,
+  surfaceTension,
+  temperature,
+  thermalConductivity,
+  time,
+  volume,
+  volumetricFlowRate,
+  wavenumber,
+} from "../dimensions/physics.js";
+
+import type {
   Centi,
-  centi,
-  conv2,
-  Conv2,
-  conv3,
-  Conv3,
   Conv4,
-  conv4,
-  equal,
   Equal,
-  kilo,
   Kilo,
-  mili,
   Mili,
   Pico,
+  Sixty,
+  Sum,
+} from "./helpers.js";
+import {
+  centi,
+  conv4,
+  equal,
+  kilo,
+  mili,
   pico,
   sixty,
-  Sixty,
   sum,
-  Sum,
-} from "./helpers";
+} from "./helpers.js";
 
 // Basic physics units
 
@@ -239,7 +320,7 @@ export const fortnight: Fortnight = conversionUnit(
 );
 export const fortnights = fortnight;
 
-export type Year = ConversionUnit<"Year", Equal<365.25, Day>>; // Sort of...
+export type Year = ConversionUnit<"Year", Equal<365.25, Day>>;
 export const year: Year = conversionUnit("Year", equal(365.25, days));
 export const years = year;
 
@@ -461,7 +542,7 @@ export const massPerUnitVolume: MassPerUnitVolume = composedUnit(
   [kilogram, cubicMeter]
 );
 
-// Planck
+// Planck units
 
 export type PlanckLength = ConversionUnit<
   "PlanckLength",
@@ -494,4 +575,561 @@ export type PlanckTemperature = ConversionUnit<
 export const planckTemperature: PlanckTemperature = conversionUnit(
   "PlanckTemperature",
   equal(1.416784e32, kelvin)
+);
+
+// Units for derived quantities
+
+// Wavenumber (1/m)
+export type ReciprocalMeter = ComposedUnit<
+  "ReciprocalMeter",
+  Wavenumber,
+  [Meter]
+>;
+export const reciprocalMeter: ReciprocalMeter = composedUnit(
+  "ReciprocalMeter",
+  wavenumber,
+  [meter]
+);
+
+// Surface density (kg/m²)
+export type KilogramPerSquareMeter = ComposedUnit<
+  "KilogramPerSquareMeter",
+  SurfaceDensity,
+  [Kilogram, SquareMeter]
+>;
+export const kilogramPerSquareMeter: KilogramPerSquareMeter = composedUnit(
+  "KilogramPerSquareMeter",
+  surfaceDensity,
+  [kilogram, squareMeter]
+);
+
+// Specific volume (m³/kg)
+export type CubicMeterPerKilogram = ComposedUnit<
+  "CubicMeterPerKilogram",
+  SpecificVolume,
+  [CubicMeter, Kilogram]
+>;
+export const cubicMeterPerKilogram: CubicMeterPerKilogram = composedUnit(
+  "CubicMeterPerKilogram",
+  specificVolume,
+  [cubicMeter, kilogram]
+);
+
+// Current density (A/m²)
+export type AmperePerSquareMeter = ComposedUnit<
+  "AmperePerSquareMeter",
+  CurrentDensity,
+  [Ampere, SquareMeter]
+>;
+export const amperePerSquareMeter: AmperePerSquareMeter = composedUnit(
+  "AmperePerSquareMeter",
+  currentDensity,
+  [ampere, squareMeter]
+);
+
+// Magnetic field strength (A/m)
+export type AmperePerMeter = ComposedUnit<
+  "AmperePerMeter",
+  MagneticFieldStrength,
+  [Ampere, Meter]
+>;
+export const amperePerMeter: AmperePerMeter = composedUnit(
+  "AmperePerMeter",
+  magneticFieldStrength,
+  [ampere, meter]
+);
+
+// Amount concentration (mol/m³)
+export type MolePerCubicMeter = ComposedUnit<
+  "MolePerCubicMeter",
+  AmountConcentration,
+  [Mole, CubicMeter]
+>;
+export const molePerCubicMeter: MolePerCubicMeter = composedUnit(
+  "MolePerCubicMeter",
+  amountConcentration,
+  [mole, cubicMeter]
+);
+
+// Mass concentration (kg/m³) - same dimension as Density but different name
+export type KilogramPerCubicMeter = ComposedUnit<
+  "KilogramPerCubicMeter",
+  MassConcentration,
+  [Kilogram, CubicMeter]
+>;
+export const kilogramPerCubicMeter: KilogramPerCubicMeter = composedUnit(
+  "KilogramPerCubicMeter",
+  massConcentration,
+  [kilogram, cubicMeter]
+);
+
+// Luminance (cd/m²) - also known as "nit"
+export type CandelaPerSquareMeter = ComposedUnit<
+  "CandelaPerSquareMeter",
+  Luminance,
+  [Candela, SquareMeter]
+>;
+export const candelaPerSquareMeter: CandelaPerSquareMeter = composedUnit(
+  "CandelaPerSquareMeter",
+  luminance,
+  [candela, squareMeter]
+);
+export const nit = candelaPerSquareMeter;
+
+// Dynamic viscosity (Pa·s) - also known as "Poiseuille"
+export type PascalSecond = ComposedUnit<
+  "PascalSecond",
+  DynamicViscosity,
+  [Pascal, Second]
+>;
+export const pascalSecond: PascalSecond = composedUnit(
+  "PascalSecond",
+  dynamicViscosity,
+  [pascal, second]
+);
+export const poiseuille = pascalSecond;
+
+// Kinematic viscosity (m²/s)
+export type SquareMeterPerSecond = ComposedUnit<
+  "SquareMeterPerSecond",
+  KinematicViscosity,
+  [SquareMeter, Second]
+>;
+export const squareMeterPerSecond: SquareMeterPerSecond = composedUnit(
+  "SquareMeterPerSecond",
+  kinematicViscosity,
+  [squareMeter, second]
+);
+
+// Moment of force / Torque (N·m)
+export type NewtonMeter = ComposedUnit<
+  "NewtonMeter",
+  MomentOfForce,
+  [Newton, Meter]
+>;
+export const newtonMeter: NewtonMeter = composedUnit(
+  "NewtonMeter",
+  momentOfForce,
+  [newton, meter]
+);
+
+// Surface tension (N/m)
+export type NewtonPerMeter = ComposedUnit<
+  "NewtonPerMeter",
+  SurfaceTension,
+  [Newton, Meter]
+>;
+export const newtonPerMeter: NewtonPerMeter = composedUnit(
+  "NewtonPerMeter",
+  surfaceTension,
+  [newton, meter]
+);
+
+// Heat flux density / Irradiance (W/m²)
+export type WattPerSquareMeter = ComposedUnit<
+  "WattPerSquareMeter",
+  HeatFluxDensity,
+  [Watt, SquareMeter]
+>;
+export const wattPerSquareMeter: WattPerSquareMeter = composedUnit(
+  "WattPerSquareMeter",
+  heatFluxDensity,
+  [watt, squareMeter]
+);
+
+// Heat capacity / Entropy (J/K)
+export type JoulePerKelvin = ComposedUnit<
+  "JoulePerKelvin",
+  HeatCapacity,
+  [Joule, Kelvin]
+>;
+export const joulePerKelvin: JoulePerKelvin = composedUnit(
+  "JoulePerKelvin",
+  heatCapacity,
+  [joule, kelvin]
+);
+
+// Specific heat capacity (J/(kg·K))
+export type JoulePerKilogramKelvin = ComposedUnit<
+  "JoulePerKilogramKelvin",
+  SpecificHeatCapacity,
+  [JoulePerKelvin, Kilogram]
+>;
+export const joulePerKilogramKelvin: JoulePerKilogramKelvin = composedUnit(
+  "JoulePerKilogramKelvin",
+  specificHeatCapacity,
+  [joulePerKelvin, kilogram]
+);
+
+// Energy density (J/m³)
+export type JoulePerCubicMeter = ComposedUnit<
+  "JoulePerCubicMeter",
+  EnergyDensity,
+  [Joule, CubicMeter]
+>;
+export const joulePerCubicMeter: JoulePerCubicMeter = composedUnit(
+  "JoulePerCubicMeter",
+  energyDensity,
+  [joule, cubicMeter]
+);
+
+// Electric field strength (V/m)
+export type VoltPerMeter = ComposedUnit<
+  "VoltPerMeter",
+  ElectricFieldStrength,
+  [Volt, Meter]
+>;
+export const voltPerMeter: VoltPerMeter = composedUnit(
+  "VoltPerMeter",
+  electricFieldStrength,
+  [volt, meter]
+);
+
+// Electric charge density (C/m³)
+export type CoulombPerCubicMeter = ComposedUnit<
+  "CoulombPerCubicMeter",
+  ElectricChargeDensity,
+  [Coulomb, CubicMeter]
+>;
+export const coulombPerCubicMeter: CoulombPerCubicMeter = composedUnit(
+  "CoulombPerCubicMeter",
+  electricChargeDensity,
+  [coulomb, cubicMeter]
+);
+
+// Surface charge density (C/m²)
+export type CoulombPerSquareMeter = ComposedUnit<
+  "CoulombPerSquareMeter",
+  SurfaceChargeDensity,
+  [Coulomb, SquareMeter]
+>;
+export const coulombPerSquareMeter: CoulombPerSquareMeter = composedUnit(
+  "CoulombPerSquareMeter",
+  surfaceChargeDensity,
+  [coulomb, squareMeter]
+);
+
+// Permittivity (F/m)
+export type FaradPerMeter = ComposedUnit<
+  "FaradPerMeter",
+  Permittivity,
+  [Farad, Meter]
+>;
+export const faradPerMeter: FaradPerMeter = composedUnit(
+  "FaradPerMeter",
+  permittivity,
+  [farad, meter]
+);
+
+// Permeability (H/m)
+export type HenryPerMeter = ComposedUnit<
+  "HenryPerMeter",
+  Permeability,
+  [Henry, Meter]
+>;
+export const henryPerMeter: HenryPerMeter = composedUnit(
+  "HenryPerMeter",
+  permeability,
+  [henry, meter]
+);
+
+// Molar energy (J/mol)
+export type JoulePerMole = ComposedUnit<
+  "JoulePerMole",
+  MolarEnergy,
+  [Joule, Mole]
+>;
+export const joulePerMole: JoulePerMole = composedUnit(
+  "JoulePerMole",
+  molarEnergy,
+  [joule, mole]
+);
+
+// Exposure (C/kg)
+export type CoulombPerKilogram = ComposedUnit<
+  "CoulombPerKilogram",
+  Exposure,
+  [Coulomb, Kilogram]
+>;
+export const coulombPerKilogram: CoulombPerKilogram = composedUnit(
+  "CoulombPerKilogram",
+  exposure,
+  [coulomb, kilogram]
+);
+
+// Absorbed dose rate (Gy/s = J/(kg·s))
+export type GrayPerSecond = ComposedUnit<
+  "GrayPerSecond",
+  AbsorbedDoseRate,
+  [Gray, Second]
+>;
+export const grayPerSecond: GrayPerSecond = composedUnit(
+  "GrayPerSecond",
+  absorbedDoseRate,
+  [gray, second]
+);
+
+// Radiant intensity (W/sr)
+export type WattPerSteradian = ComposedUnit<
+  "WattPerSteradian",
+  RadiantIntensity,
+  [Watt, Steradian]
+>;
+export const wattPerSteradian: WattPerSteradian = composedUnit(
+  "WattPerSteradian",
+  radiantIntensity,
+  [watt, steradian]
+);
+
+// Radiance (W/(sr·m²))
+export type WattPerSteradianSquareMeter = ComposedUnit<
+  "WattPerSteradianSquareMeter",
+  Radiance,
+  [WattPerSteradian, SquareMeter]
+>;
+export const wattPerSteradianSquareMeter: WattPerSteradianSquareMeter =
+  composedUnit("WattPerSteradianSquareMeter", radiance, [
+    wattPerSteradian,
+    squareMeter,
+  ]);
+
+// Catalytic activity concentration (kat/m³)
+export type KatalPerCubicMeter = ComposedUnit<
+  "KatalPerCubicMeter",
+  CatalyticActivityConcentration,
+  [Katal, CubicMeter]
+>;
+export const katalPerCubicMeter: KatalPerCubicMeter = composedUnit(
+  "KatalPerCubicMeter",
+  catalyticActivityConcentration,
+  [katal, cubicMeter]
+);
+
+// Additional mechanics units
+
+// Angular velocity (rad/s)
+export type RadianPerSecond = ComposedUnit<
+  "RadianPerSecond",
+  AngularVelocity,
+  [Radian, Second]
+>;
+export const radianPerSecond: RadianPerSecond = composedUnit(
+  "RadianPerSecond",
+  angularVelocity,
+  [radian, second]
+);
+
+// Angular acceleration (rad/s²)
+export type RadianPerSecondSquared = ComposedUnit<
+  "RadianPerSecondSquared",
+  AngularAcceleration,
+  [RadianPerSecond, Second]
+>;
+export const radianPerSecondSquared: RadianPerSecondSquared = composedUnit(
+  "RadianPerSecondSquared",
+  angularAcceleration,
+  [radianPerSecond, second]
+);
+
+// Momentum (kg·m/s)
+export type KilogramMeterPerSecond = ComposedUnit<
+  "KilogramMeterPerSecond",
+  Momentum,
+  [Kilogram, MeterPerSecond]
+>;
+export const kilogramMeterPerSecond: KilogramMeterPerSecond = composedUnit(
+  "KilogramMeterPerSecond",
+  momentum,
+  [kilogram, meterPerSecond]
+);
+
+// Impulse (N·s)
+export type NewtonSecond = ComposedUnit<
+  "NewtonSecond",
+  Impulse,
+  [Newton, Second]
+>;
+export const newtonSecond: NewtonSecond = composedUnit(
+  "NewtonSecond",
+  impulse,
+  [newton, second]
+);
+
+// Angular momentum (kg·m²/s = N·m·s)
+export type NewtonMeterSecond = ComposedUnit<
+  "NewtonMeterSecond",
+  AngularMomentum,
+  [NewtonMeter, Second]
+>;
+export const newtonMeterSecond: NewtonMeterSecond = composedUnit(
+  "NewtonMeterSecond",
+  angularMomentum,
+  [newtonMeter, second]
+);
+
+// Jerk (m/s³)
+export type MeterPerSecondCubed = ComposedUnit<
+  "MeterPerSecondCubed",
+  Jerk,
+  [MeterPerSecondSquare, Second]
+>;
+export const meterPerSecondCubed: MeterPerSecondCubed = composedUnit(
+  "MeterPerSecondCubed",
+  jerk,
+  [meterPerSecondSquare, second]
+);
+
+// Action (J·s) - Planck constant has this dimension
+export type JouleSecond = ComposedUnit<"JouleSecond", Action, [Joule, Second]>;
+export const jouleSecond: JouleSecond = composedUnit("JouleSecond", action, [
+  joule,
+  second,
+]);
+
+// Planck constant
+export type PlanckConstant = ConversionUnit<
+  "PlanckConstant",
+  Equal<6.62607015e-34, JouleSecond>
+>;
+export const planckConstant: PlanckConstant = conversionUnit(
+  "PlanckConstant",
+  equal(6.62607015e-34, jouleSecond)
+);
+
+// Additional thermodynamics units
+
+// Thermal conductivity (W/(m²·K) / m = W/(m·K))
+export type WattPerMeterKelvin = ComposedUnit<
+  "WattPerMeterKelvin",
+  ThermalConductivity,
+  [WattPerSquareMeter, Kelvin]
+>;
+export const wattPerMeterKelvin: WattPerMeterKelvin = composedUnit(
+  "WattPerMeterKelvin",
+  thermalConductivity,
+  [wattPerSquareMeter, kelvin]
+);
+
+// Heat transfer coefficient (W/(m²·K))
+export type WattPerSquareMeterKelvin = ComposedUnit<
+  "WattPerSquareMeterKelvin",
+  HeatTransferCoefficient,
+  [WattPerSquareMeter, Kelvin]
+>;
+export const wattPerSquareMeterKelvin: WattPerSquareMeterKelvin = composedUnit(
+  "WattPerSquareMeterKelvin",
+  heatTransferCoefficient,
+  [wattPerSquareMeter, kelvin]
+);
+
+// Molar mass (kg/mol)
+export type KilogramPerMole = ComposedUnit<
+  "KilogramPerMole",
+  MolarMass,
+  [Kilogram, Mole]
+>;
+export const kilogramPerMole: KilogramPerMole = composedUnit(
+  "KilogramPerMole",
+  molarMass,
+  [kilogram, mole]
+);
+
+// Molar volume (m³/mol)
+export type CubicMeterPerMole = ComposedUnit<
+  "CubicMeterPerMole",
+  MolarVolume,
+  [CubicMeter, Mole]
+>;
+export const cubicMeterPerMole: CubicMeterPerMole = composedUnit(
+  "CubicMeterPerMole",
+  molarVolume,
+  [cubicMeter, mole]
+);
+
+// Additional electromagnetic units
+
+// Electrical resistivity (Ω·m)
+export type OhmMeter = ComposedUnit<
+  "OhmMeter",
+  ElectricalResistivity,
+  [Ohm, Meter]
+>;
+export const ohmMeter: OhmMeter = composedUnit(
+  "OhmMeter",
+  electricalResistivity,
+  [ohm, meter]
+);
+
+// Electrical conductivity (S/m)
+export type SiemensPerMeter = ComposedUnit<
+  "SiemensPerMeter",
+  ElectricalConductivity,
+  [Siemens, Meter]
+>;
+export const siemensPerMeter: SiemensPerMeter = composedUnit(
+  "SiemensPerMeter",
+  electricalConductivity,
+  [siemens, meter]
+);
+
+// Flow units
+
+// Volumetric flow rate (m³/s)
+export type CubicMeterPerSecond = ComposedUnit<
+  "CubicMeterPerSecond",
+  VolumetricFlowRate,
+  [CubicMeter, Second]
+>;
+export const cubicMeterPerSecond: CubicMeterPerSecond = composedUnit(
+  "CubicMeterPerSecond",
+  volumetricFlowRate,
+  [cubicMeter, second]
+);
+
+// Mass flow rate (kg/s)
+export type KilogramPerSecond = ComposedUnit<
+  "KilogramPerSecond",
+  MassFlowRate,
+  [Kilogram, Second]
+>;
+export const kilogramPerSecond: KilogramPerSecond = composedUnit(
+  "KilogramPerSecond",
+  massFlowRate,
+  [kilogram, second]
+);
+
+// Spectral units
+
+// Spectral power (W/Hz)
+export type WattPerHertz = ComposedUnit<
+  "WattPerHertz",
+  SpectralPower,
+  [Watt, Hertz]
+>;
+export const wattPerHertz: WattPerHertz = composedUnit(
+  "WattPerHertz",
+  spectralPower,
+  [watt, hertz]
+);
+
+// Spectral flux density (W/(m²·Hz)) - Jansky is a common unit
+export type WattPerSquareMeterHertz = ComposedUnit<
+  "WattPerSquareMeterHertz",
+  SpectralFluxDensity,
+  [WattPerSquareMeter, Hertz]
+>;
+export const wattPerSquareMeterHertz: WattPerSquareMeterHertz = composedUnit(
+  "WattPerSquareMeterHertz",
+  spectralFluxDensity,
+  [wattPerSquareMeter, hertz]
+);
+
+// Jansky (10^-26 W/(m²·Hz)) - common in radio astronomy
+export type Jansky = ConversionUnit<
+  "Jansky",
+  Equal<1e-26, WattPerSquareMeterHertz>
+>;
+export const jansky: Jansky = conversionUnit(
+  "Jansky",
+  equal(1e-26, wattPerSquareMeterHertz)
 );

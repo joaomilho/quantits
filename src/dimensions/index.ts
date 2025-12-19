@@ -1,9 +1,9 @@
-export * from "./physics";
-export * from "./digital";
+export * from "./physics.js";
+export * from "./digital.js";
 
-import { DigitalDimension } from "./digital";
-import { PhysicsDimension } from "./physics";
+import type { DigitalDimension } from "./digital.js";
+import type { PhysicsDimension } from "./physics.js";
 
 export type SimpleDimension = PhysicsDimension | DigitalDimension;
 
-export * from "./helpers";
+export * from "./helpers.js";

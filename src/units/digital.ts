@@ -1,56 +1,50 @@
-import { second, Second } from ".";
-import { composedUnit } from "..";
-import {
-  Unit,
-  unit,
-  ConversionUnit,
-  conversionUnit,
-  ComposedUnit,
-} from "../core";
-import {
-  bandwidth,
-  Bandwidth,
-  information,
-  Information,
-} from "../dimensions/digital";
-import {
+import type { ComposedUnit, ConversionUnit, Unit } from "../core.js";
+import { composedUnit, conversionUnit, unit } from "../core.js";
+import type { Bandwidth, Information } from "../dimensions/digital.js";
+import { bandwidth, information } from "../dimensions/digital.js";
+import type {
   Equal,
-  equal,
-  Kilo,
-  kilo,
-  Mega,
-  mega,
-  Giga,
-  giga,
-  Tera,
-  tera,
-  Peta,
-  peta,
   Exa,
-  exa,
-  Zetta,
-  zetta,
-  Yotta,
-  yotta,
-  Kibi,
-  kibi,
-  Mebi,
-  mebi,
-  Gibi,
-  gibi,
-  Tebi,
-  tebi,
   Exbi,
-  exbi,
+  Gibi,
+  Giga,
+  Kibi,
+  Kilo,
+  Mebi,
+  Mega,
   Pebi,
-  pebi,
-  Zebi,
-  zebi,
+  Peta,
+  Tebi,
+  Tera,
   Yobi,
+  Yotta,
+  Zebi,
+  Zetta,
+} from "./helpers.js";
+import {
+  equal,
+  exa,
+  exbi,
+  gibi,
+  giga,
+  kibi,
+  kilo,
+  mebi,
+  mega,
+  pebi,
+  peta,
+  tebi,
+  tera,
   yobi,
-} from "./helpers";
+  yotta,
+  zebi,
+  zetta,
+} from "./helpers.js";
+import type { Second } from "./physics.js";
+import { second } from "./physics.js";
 
 // Basic units
+
 export type Bit = Unit<"Bit", Information>;
 export const bit: Bit = unit("Bit", information);
 export const bits = bit;
@@ -62,7 +56,8 @@ export const trits = trit;
 
 export type DigitalUnit = Bit | Trit;
 
-// Derived units
+// Derived units - Byte
+
 export type Byte = ConversionUnit<"Byte", Equal<8, Bit>>;
 const byte: Byte = conversionUnit("Byte", equal(8, bit));
 
@@ -99,6 +94,8 @@ export type Zebibyte = Zebi<Byte>;
 export const zebibyte: Zebibyte = zebi(byte);
 export type Yobibyte = Yobi<Byte>;
 export const yobibyte: Yobibyte = yobi(byte);
+
+// Derived units - Tryte
 
 export type Tryte = ConversionUnit<"Tryte", Equal<6, Trit>>;
 const tryte: Tryte = conversionUnit("Tryte", equal(6, trit));
@@ -137,7 +134,8 @@ export const zebitryte: Zebitryte = zebi(tryte);
 export type Yobitryte = Yobi<Tryte>;
 export const yobitryte: Yobitryte = yobi(tryte);
 
-// Composed
+// Composed units
+
 export type Bitrate = ComposedUnit<"Bitrate", Bandwidth, [Bit, Second]>;
 const bitrate: Bitrate = composedUnit("Bitrate", bandwidth, [bit, second]);
 

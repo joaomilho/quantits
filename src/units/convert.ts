@@ -1,38 +1,36 @@
-import { AnyMeasurement, AnyQuantity, Measurement } from "..";
-import {
+import { Big, type BigDecimal, MathContext } from "bigdecimal.js";
+import type {
+  AnyComposedUnit,
+  AnyConversionUnit,
+  AnySimpleUnit,
   AnyUnit,
   Operation,
-  AnySimpleUnit,
-  AnyConversionUnit,
-  Number,
-  AnyComposedUnit,
-} from "../core";
-import { Decimal } from "decimal.js";
+} from "../core.js";
+import type { AnyMeasurement, AnyQuantity } from "../index.js";
 
-type Operations = [Operation, Number][];
+// Use 34 significant digits (IEEE 754-2019 decimal128 precision)
+const MATH_CTX = MathContext.DECIMAL128;
 
-function calculate(ops: Operations, result: Number = new Decimal(1)): Decimal {
-  if (typeof result === "number") {
-    result = new Decimal(result);
-  }
+type Operations = [Operation, number][];
 
+function calculate(ops: Operations, result: BigDecimal = Big("1")): BigDecimal {
   if (ops.length === 0) return result;
-  const [op, n] = ops.shift() as [Operation, Number];
+  const [op, n] = ops.shift()!;
 
   switch (op) {
     case "+":
-      return calculate(ops, result.add(n));
+      return calculate(ops, result.add(Big(n)));
     case "-":
-      return calculate(ops, result.sub(n));
+      return calculate(ops, result.subtract(Big(n)));
     case "*":
-      return calculate(ops, result.mul(n));
+      return calculate(ops, result.multiply(Big(n)));
     case "/":
-      return calculate(ops, result.div(n));
+      return calculate(ops, result.divideWithMathContext(Big(n), MATH_CTX));
     case "^":
-      return calculate(ops, result.pow(n));
+      return calculate(ops, result.pow(n, MATH_CTX));
     case "√":
-      return calculate(ops, result.pow(new Decimal(1).div(n)));
-    // TODO totality, TS has a switch now or something
+      // nth root = x^(1/n)
+      return calculate(ops, Big(result.numberValue() ** (1 / n)));
   }
 }
 
@@ -50,122 +48,149 @@ function invertOp(op: Operation): Operation {
       return "√";
     case "√":
       return "^";
-    // TODO totality
   }
 }
 
-export function convert<
-  U1 extends AnyUnit | AnyMeasurement,
-  U2 extends AnyUnit
->(
+/** Error thrown when attempting to convert between incompatible units */
+export class ConversionError extends Error {
+  constructor(u1: AnyUnit, u2: AnyUnit) {
+    super(`${u1.name} is not compatible with ${u2.name}`);
+    Object.setPrototypeOf(this, ConversionError.prototype);
+  }
+}
+
+/** Type-level result of a conversion operation */
+type CalculateConversion<U1 extends AnyUnit | AnyMeasurement, U2 extends AnyUnit> = U1 extends U2
+  ? BigDecimal
+  : U1 extends AnyMeasurement
+    ? BigDecimal
+    : U1 extends AnySimpleUnit
+      ? U2 extends AnyConversionUnit
+        ? CalculateConversion<U1, U2["conversion"]["u"]>
+        : ConversionError
+      : U1 extends AnyConversionUnit
+        ? CalculateConversion<U1["conversion"]["u"], U2>
+        : U1 extends AnyComposedUnit
+          ? BigDecimal
+          : ConversionError;
+
+/**
+ * Convert between units or from a measurement to a unit
+ * @param u1 - Source unit or measurement
+ * @param u2 - Target unit
+ * @returns BigDecimal result of the conversion
+ * @throws ConversionError if units are incompatible
+ */
+export function convert<U1 extends AnyUnit | AnyMeasurement, U2 extends AnyUnit>(
   u1: U1,
   u2: U2,
   ops: Operations = [],
-  initialValue: Number = new Decimal(1)
+  initialValue = 1
 ): CalculateConversion<U1, U2> {
-  if (typeof initialValue === "number") {
-    initialValue = new Decimal(initialValue);
+  // Handle measurements
+  if ("type" in u1 && u1.type === "Measurement") {
+    const m = u1 as AnyMeasurement;
+    return convert(m.u, u2, [], m.n) as CalculateConversion<U1, U2>;
   }
 
-  // TODO use better guard
-  if (u1.type === "Measurement") {
-    // @ts-ignore
-    return convert(u1.u, u2, [], u1.n);
+  const unit1 = u1 as AnyUnit;
+
+  if (unit1.name === u2.name) {
+    return calculate(ops, Big(initialValue)) as CalculateConversion<U1, U2>;
   }
 
-  if (u1.name === u2.name) {
-    return calculate(ops, initialValue) as unknown as CalculateConversion<
-      U1,
-      U2
-    >;
-  }
-
-  switch (u1.type) {
+  switch (unit1.type) {
     case "Unit":
       switch (u2.type) {
         case "Unit":
-          throw new ConversionError(u1, u2);
+          throw new ConversionError(unit1, u2);
 
         case "ConversionUnit":
           return convert(
-            u1,
+            unit1,
             u2.conversion.u,
-            [...ops, [invertOp(u2.conversion["op"]), u2.conversion["n"]]],
+            [...ops, [invertOp(u2.conversion.op), u2.conversion.n]],
             initialValue
           ) as CalculateConversion<U1, U2>;
+
+        case "ComposedUnit":
+          throw new ConversionError(unit1, u2);
       }
       break;
+
     case "ConversionUnit":
       return convert(
-        u1.conversion.u,
+        unit1.conversion.u,
         u2,
-        [...ops, [u1.conversion["op"], u1.conversion["n"]]],
+        [...ops, [unit1.conversion.op, unit1.conversion.n]],
         initialValue
       ) as CalculateConversion<U1, U2>;
+
     case "ComposedUnit":
       switch (u2.type) {
         case "Unit":
-          throw new ConversionError(u1, u2);
+          throw new ConversionError(unit1, u2);
 
         case "ConversionUnit":
-          // TODO
-          break;
+          throw new ConversionError(unit1, u2);
+
         case "ComposedUnit": {
-          if (u1.dimension.name !== u2.dimension.name) {
-            throw new ConversionError(u1, u2);
+          if (
+            (unit1 as AnyComposedUnit).dimension.name !== (u2 as AnyComposedUnit).dimension.name
+          ) {
+            throw new ConversionError(unit1, u2);
           }
 
-          // return convert()
+          const composed1 = unit1 as AnyComposedUnit;
+          const composed2 = u2 as AnyComposedUnit;
+          const composition = composed1.dimension.composition;
 
-          return u1.composedUnits
-            .map((unit: any, index: number) => {
-              return convert(unit, u2.composedUnits[index], ops, initialValue);
+          // For power operations (^), the exponent is stored in d2
+          // We need to raise the single unit conversion to that power
+          if (composition.op === "^" && typeof composition.d2 === "number") {
+            const exponent = composition.d2;
+            const unitConversion = convert(
+              composed1.composedUnits[0]!,
+              composed2.composedUnits[0]!,
+              ops,
+              initialValue
+            );
+            return unitConversion.pow(exponent, MATH_CTX) as CalculateConversion<U1, U2>;
+          }
+
+          // For root operations (√), apply the inverse power
+          if (composition.op === "√" && typeof composition.d2 === "number") {
+            const root = composition.d2;
+            const unitConversion = convert(
+              composed1.composedUnits[0]!,
+              composed2.composedUnits[0]!,
+              ops,
+              initialValue
+            );
+            // nth root = x^(1/n)
+            return Big(unitConversion.numberValue() ** (1 / root)) as CalculateConversion<U1, U2>;
+          }
+
+          return composed1.composedUnits
+            .map((compUnit: AnyUnit, index: number) => {
+              return convert(compUnit, composed2.composedUnits[index]!, ops, initialValue);
             })
-            .reduce((acc: Decimal, item: Decimal) => {
-              if (!acc) return item;
+            .reduce((acc: BigDecimal | null, item: BigDecimal) => {
+              if (acc === null) return item;
 
-              switch (u1.dimension.composition.op) {
+              switch (composition.op) {
                 case "*":
-                  return acc.mul(item);
+                  return acc.multiply(item);
                 case "/":
-                  return acc.div(item);
-                // TODO  all  other ones
+                  return acc.divideWithMathContext(item, MATH_CTX);
+                default:
+                  return acc;
               }
-              // TODO what's the relation tho
-            }, 0);
-
-          // u2.composedUnits.map((unit: any) => {
-          //   console.log("HERE2", unit);
-          // });
+            }, null) as CalculateConversion<U1, U2>;
         }
       }
       break;
   }
 
-  throw new ConversionError(u1, u2);
-}
-
-type CalculateConversion<
-  U1 extends AnyUnit | AnyMeasurement,
-  U2 extends AnyUnit
-> = U1 extends U2
-  ? Decimal
-  : U1 extends AnyMeasurement
-  ? Decimal // Yucc, TODO
-  : U1 extends AnySimpleUnit
-  ? U2 extends AnyConversionUnit
-    ? CalculateConversion<U1, U2["conversion"]["u"]>
-    : ConversionError
-  : U1 extends AnyConversionUnit
-  ? CalculateConversion<U1["conversion"]["u"], U2>
-  : U1 extends AnyComposedUnit
-  ? Decimal // Yucc, TODO
-  : ConversionError;
-
-export class ConversionError extends Error {
-  constructor(u1: AnyUnit, u2: AnyUnit) {
-    super(`${u1.name} is not compatible with ${u2.name}`);
-    // https://github.com/facebook/jest/issues/8279#issuecomment-539775425
-    Object.setPrototypeOf(this, ConversionError.prototype);
-  }
+  throw new ConversionError(unit1, u2);
 }
